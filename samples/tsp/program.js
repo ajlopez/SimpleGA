@@ -1,4 +1,5 @@
 
+var simplega = require('../../');
 
 // http://www.merlyn.demon.co.uk/js-shufl.htm#FnB
 
@@ -73,4 +74,23 @@ function Genotype(points, maxlength, values)
 }
 
 var points = getPoints(3, 4);
+var maxlength = 3 * 4 * (3*3 + 4*4);
 
+var population = [];
+
+for (var k = 1; k < 50; k++)
+    population.push(new Genotype(points, maxlength));
+    
+var engine = new simplega.Engine();
+
+engine.setPopulation(population);
+
+console.log(simplega.getBestValue(population));
+
+for (k = 1; k < 30; k++)
+{
+    population = engine.nextPopulation();
+    console.log(population.length);
+    console.log(simplega.getBestValue(population));
+    engine.setPopulation(population);
+}
