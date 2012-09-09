@@ -99,11 +99,22 @@ var tpl = (function() {
             return genotype.clone(values);
         }
     }
+    
+    function createPopulation(size, points, maxlength)
+    {
+        var population = [];
+        
+        for (var k = 0; k < size; k++)
+            population.push(new Genotype(points, maxlength));
+        
+        return population;
+    }
 
     return {
         Genotype: Genotype,
         Mutator: Mutator,
-        createPointRectangle: createPointRectangle
+        createPointRectangle: createPointRectangle,
+        createPopulation: createPopulation
     }
 }());
 

@@ -33,3 +33,9 @@ assert.ok(newvalues);
 assert.ok(Array.isArray(newvalues));
 assert.equal(3*4, newvalues.length);
 
+var population = tsp.createPopulation(1000, points, maxlength);
+
+assert.ok(population);
+assert.ok(Array.isArray(population));
+assert.equal(1000, population.length);
+
