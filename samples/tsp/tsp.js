@@ -1,5 +1,5 @@
 
-var tpl = (function() {
+var tsp = (function() {
     // http://www.merlyn.demon.co.uk/js-shufl.htm#FnB
 
     function shuffle(values)
@@ -89,8 +89,8 @@ var tpl = (function() {
             var pos1 = Math.floor(Math.random() * l);
             var pos2 = (pos1 + 1) % l;
             
-    /*        if (Math.random() >= 0.8)
-                pos2 = Math.floor(Math.random() * l);*/
+            if (Math.random() >= 0.8)
+                pos2 = Math.floor(Math.random() * l);
             
             var value = values[pos1];
             values[pos1] = values[pos2];
@@ -119,6 +119,6 @@ var tpl = (function() {
 }());
 
 if (typeof(window) === 'undefined') {
-	module.exports = tpl;
+	module.exports = tsp;
 }
 

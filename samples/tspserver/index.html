@@ -1,0 +1,98 @@
+<html>
+<head>
+<title>Travelling Salesman Problem Sample</title>
+<script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+<h1>Travelling Salesman Problem Sample</h1>
+
+<div>
+<input type="button" value="Restart" onclick="relaunch()">
+<input type="button" value="Stop" onclick="stop()">
+</div>
+
+<div>
+<canvas id="canvas" width="600" height="500">
+</canvas>
+</div>
+
+<script>
+
+function newResult(msg)
+{
+    if (msg.value > bestpath)
+        return;
+        
+    bestpath = msg.value;
+    drawPoints();
+    drawValues(points, msg.values);
+}
+
+function relaunch()
+{
+    bestpath = maxlength;
+    socket.emit('newproblem', { width: 5, height: 4} );
+}
+
+function stop()
+{
+    socket.emit('stop');
+}
+
+var canvas = document.getElementById("canvas");
+var context = canvas.getContext("2d");
+
+function drawPoints()
+{
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.beginPath();
+    for (var k = 0; k < 5; k++)
+        for (var j = 0; j < 4; j++) {
+            context.arc(50 + 100 * k, 50 + 100 * j, 10, 0, Math.PI * 2, true);
+        }
+    context.closePath();
+    context.fill();
+}
+
+function drawValues(points, values)
+{
+    context.beginPath();
+    
+    var l = values.length;
+    var point = points[values[0]];
+    
+    context.moveTo(50 + 100 * point.x, 50 + 100 * point.y);
+    
+    for (var k = 1; k < l; k++) {
+        point = points[values[k]];
+        context.lineTo(50 + 100 * point.x, 50 + 100 * point.y);
+    }
+    
+    context.closePath();
+    context.stroke();
+}
+
+function createPointRectangle(m, n)
+{
+    var points = [];
+    
+    for (var k = 0; k < m; k++)
+        for (var j = 0; j < n; j++)
+            points.push({ x: k, y: j });
+            
+    return points;
+}
+
+var points = createPointRectangle(5, 4);
+var maxlength = 5 * 4 * (5*5 + 4*4);
+var bestpath = maxlength;
+
+drawPoints();
+
+var socket = io.connect('http://localhost:8080');
+socket.on('newresult', newResult);
+socket.on('connect', function () {
+    socket.emit('newproblem', { width: 5, height: 4} );
+});
+  
+</script>

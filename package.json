@@ -12,5 +12,7 @@
 , "dependencies": {
   }
 , "devDependencies": {
+	"socket.io",
+	"express"
   }
 }
