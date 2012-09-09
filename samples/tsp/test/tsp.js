@@ -21,3 +21,15 @@ assert.ok(values);
 assert.ok(Array.isArray(values));
 assert.equal(3*4, values.length);
 
+var mutator = new tsp.Mutator();
+
+var newgenotype = mutator.mutate(genotype);
+
+assert.ok(newgenotype);
+
+var newvalues = newgenotype.getValues();
+
+assert.ok(newvalues);
+assert.ok(Array.isArray(newvalues));
+assert.equal(3*4, newvalues.length);
+
