@@ -12,7 +12,8 @@
 , "dependencies": {
   }
 , "devDependencies": {
-	"socket.io",
-	"express"
+	"socket.io": "*",
+	"express": "*",
+	"simplemessages": "*"
   }
 }
