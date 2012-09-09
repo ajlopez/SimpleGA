@@ -20,6 +20,8 @@ function Controller()
 	var nclients = 0;
 	var clients = {};
 	var controller = this;
+    var stopped = false;
+    var bestpath;
 	
 	this.newClient = function(client) {
         console.log("New Client");
@@ -36,11 +38,24 @@ function Controller()
 	}
     
     this.stopClients = function() {
+        stopped = true;
         this.broadcast({ action: 'stop' });
     }
 	
-    this.newProblem = function(width, heigth) {
-        this.broadcast({ action: 'newproblem', width: width, height: heigth });
+    this.newProblem = function(width, height) {
+        bestpath = width * height * (width*width + height*height);
+        stopped = false;
+        this.broadcast({ action: 'newproblem', width: width, height: height });
+    }
+    
+    this.processMessage = function(msg) {
+        if (stopped)
+            return;
+        console.log(msg);
+        if (msg.action == 'newresult' && msg.value < bestpath ) {
+            bestpath = msg.value;
+            this.socket.emit('newresult', { value: msg.value, values: msg.values });
+        }
     }
 	
 	this.broadcast = function(msg) {
@@ -70,6 +85,7 @@ app.get('/', function (req, res) {
 });
 
 io.sockets.on('connection', function (socket) {
+  controller.socket = socket;
   socket.on('newproblem', function (data) {
     controller.newProblem(data.width, data.height);
   });
@@ -78,3 +94,4 @@ io.sockets.on('connection', function (socket) {
     controller.stopClients();
   });
 });
+
