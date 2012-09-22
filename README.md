@@ -32,7 +32,13 @@ npm test
 
 ## Samples
 
-TBD
+[Travelling Saleman Problem](https://github.com/ajlopez/SimpleGA/tree/master/samples/tsp) console program.
+
+[TSP in browser](https://github.com/ajlopez/SimpleGA/tree/master/samples/tsphtml).
+
+[TSP client/server](https://github.com/ajlopez/SimpleGA/tree/master/samples/tspserver).
+
+[Distributed TSP](https://github.com/ajlopez/SimpleGA/tree/master/samples/tspserver).
 
 ## To do
 
