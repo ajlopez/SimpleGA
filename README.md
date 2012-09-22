@@ -38,7 +38,7 @@ npm test
 
 [TSP client/server](https://github.com/ajlopez/SimpleGA/tree/master/samples/tspserver).
 
-[Distributed TSP](https://github.com/ajlopez/SimpleGA/tree/master/samples/tspserver).
+[Distributed TSP](https://github.com/ajlopez/SimpleGA/tree/master/samples/tspdistr).
 
 ## To do
 
