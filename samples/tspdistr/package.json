@@ -1,0 +1,10 @@
+{
+  "name": "tsp-distributed-example",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+	"socket.io": "0.9.13",
+    "simplemessages": "0.0.3",
+    "express": "3.0.6"
+  }
+}
