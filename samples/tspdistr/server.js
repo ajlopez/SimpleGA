@@ -27,7 +27,7 @@ function Controller()
         console.log("New Client");
 		client.nclient = nclients++;
 		clients[client.nclient] = client;
-		client.on('message', function(msg) { controller.processMessage(msg); });
+		client.on('data', function(msg) { console.log('client message'); console.dir(msg); controller.processMessage(msg); });
 		client.on('end', function() { controller.removeClient(client); });
 		client.on('close', function() { controller.removeClient(client); });
 	}
@@ -51,7 +51,8 @@ function Controller()
     this.processMessage = function(msg) {
         if (stopped)
             return;
-        console.log(msg);
+        console.log('process message');
+        console.dir(msg);
         if (msg.action == 'newresult' && msg.value < bestpath ) {
             bestpath = msg.value;
             this.socket.emit('newresult', { value: msg.value, values: msg.values });
@@ -59,11 +60,14 @@ function Controller()
     }
 	
 	this.broadcast = function(msg) {
+        console.log('broadcast');
+        console.dir(msg);
 		for (var n in clients)
 		{
 			var client = clients[n];
 			try {
-				client.send(msg);
+                console.log('write to client');
+				client.write(msg);
 			}
 			catch (ex) {
 				console.log(ex.toString());

@@ -3,17 +3,15 @@ var simplega = require('../../'),
     tsp = require('../tsp/tsp'),
     simplemessages = require('simplemessages');
         
-var client = simplemessages.createClient();
+var client = simplemessages.createClient(3000, 'localhost');
 
-client.on('message', function(msg) {
+client.on('data', function(msg) {
     console.log(msg);
     if (msg.action == 'newproblem')
         newProblem(msg.width, msg.height);
     if (msg.action == 'stop')
         stopped = true;
 });
-
-client.connect(3000, 'localhost');
 
 var stopped = false;
 var engine = new simplega.Engine();
@@ -39,7 +37,7 @@ function newProblem(width, height) {
             bestresult = bestpath;
             for (var k = 0; k < l; k++)
                 if (population[k].evaluate() == bestvalue)
-                    client.send( { action: 'newresult', value: bestpath, values: population[k].getValues() });        
+                    client.write( { action: 'newresult', value: bestpath, values: population[k].getValues() });        
         }
                 
         if (!stopped)
