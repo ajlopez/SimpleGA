@@ -41,9 +41,9 @@ function newProblem(width, height) {
         }
                 
         if (!stopped)
-            process.nextTick(doStep);
+            setImmediate(doStep);
     }
     
-    process.nextTick(doStep);
+    setImmediate(doStep);
 }
 
