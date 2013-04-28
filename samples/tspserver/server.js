@@ -38,10 +38,10 @@ io.sockets.on('connection', function (socket) {
                 socket.emit('newresult', { value: bestpath, values: population[k].getValues() });
                 
         if (!stopped)
-            process.nextTick(doStep);
+            setImmediate(doStep);
     }
     
-    process.nextTick(doStep);
+    setImmediate(doStep);
   });
   
   socket.on('stop', function() {

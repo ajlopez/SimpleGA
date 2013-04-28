@@ -51,7 +51,8 @@ function Controller()
     this.processMessage = function(msg) {
         if (stopped)
             return;
-        console.log(msg);
+        console.log('process message');
+        console.dir(msg);
         if (msg.action == 'newresult' && msg.value < bestpath ) {
             bestpath = msg.value;
             this.socket.emit('newresult', { value: msg.value, values: msg.values });
@@ -59,6 +60,8 @@ function Controller()
     }
 	
 	this.broadcast = function(msg) {
+        console.log('broadcast');
+        console.dir(msg);
 		for (var n in clients)
 		{
 			var client = clients[n];
