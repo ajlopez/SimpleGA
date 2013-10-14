@@ -13,7 +13,6 @@ Via npm on Node:
 npm install simplega
 ```
 
-
 ## Usage
 
 Reference in your program:
@@ -42,6 +41,12 @@ npm test
 [TSP client/server](https://github.com/ajlopez/SimpleGA/tree/master/samples/tspserver).
 
 [Distributed TSP](https://github.com/ajlopez/SimpleGA/tree/master/samples/tspdistr).
+
+## References
+
+- [A Genetic Algorithm Tutorial](http://ibug.doc.ic.ac.uk/media/uploads/documents/courses/GeneticAlgorithm-tutorial.pdf)
+- [Genetic Algorithms in Plain English](http://www.ai-junkie.com/ga/intro/gat1.html)
+- [http://reference.kfupm.edu.sa/content/g/e/a_genetic_algorithm_tutorial_80073.pdf](http://reference.kfupm.edu.sa/content/g/e/a_genetic_algorithm_tutorial_80073.pdf)
 
 ## To do
 
