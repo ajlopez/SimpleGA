@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
 	"socket.io": "0.9.13",
-    "simplemessages": "0.0.3",
+    "simplemessages": "0.0.5",
     "express": "3.0.6"
   }
 }
