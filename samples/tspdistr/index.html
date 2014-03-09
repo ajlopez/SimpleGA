@@ -45,13 +45,13 @@ var context = canvas.getContext("2d");
 function drawPoints()
 {
     context.clearRect(0, 0, canvas.width, canvas.height);
-    context.beginPath();
     for (var k = 0; k < 5; k++)
         for (var j = 0; j < 4; j++) {
+            context.beginPath();
             context.arc(50 + 100 * k, 50 + 100 * j, 10, 0, Math.PI * 2, true);
+            context.closePath();
+            context.fill();
         }
-    context.closePath();
-    context.fill();
 }
 
 function drawValues(points, values)
