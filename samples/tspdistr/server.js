@@ -30,6 +30,7 @@ function Controller()
 		client.on('data', function(msg) { controller.processMessage(msg); });
 		client.on('end', function() { controller.removeClient(client); });
 		client.on('close', function() { controller.removeClient(client); });
+		client.on('error', function() { controller.removeClient(client); });
 	}
 	
 	this.removeClient = function(client) {
