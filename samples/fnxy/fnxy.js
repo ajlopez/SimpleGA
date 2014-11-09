@@ -23,13 +23,13 @@ var fnxy = (function() {
             y += deltay;
             
             if (x < fromx)
-                x = fromx;
+                x = fromx + (fromx - x);
             if (x > tox)
-                x = tox;
+                x = tox - (x - tox);
             if (y < fromy)
-                y = fromy;
+                y = fromy + (fromy - y);
             if (y > toy)
-                y = toy;
+                y = toy - (y - toy);
              
             return new Genotype(fn, x, y);
         }

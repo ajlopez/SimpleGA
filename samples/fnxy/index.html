@@ -1,0 +1,89 @@
+<html>
+<head>
+<title>Function Evaluation</title>
+<script src="../../lib/simplega.js" language="javascript"></script>
+<script src="./fnxy.js" language="javascript"></script>
+</head>
+<body>
+<h1>Function Evaluation</h1>
+
+<input type="button" value="Relaunch" onclick="relaunch()">
+
+<canvas id="canvas" width="600" height="600">
+</canvas>
+
+<script language="javascript">
+var canvas = document.getElementById("canvas");
+var context = canvas.getContext("2d");
+
+function drawPopulation(population)
+{
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    
+    for (var k = 0; k < population.length; k++) {
+        var genotype = population[k];
+        var x = genotype.x();
+        var y = genotype.y();
+        
+        var px = (x + 10) * 30;
+        var py = (y + 10) * 30;
+        
+        context.fillRect(px, py, 1, 1);
+    }
+}
+
+function drawValues(points, values)
+{
+    context.beginPath();
+    
+    var l = values.length;
+    var point = points[values[0]];
+    
+    context.moveTo(50 + 100 * point.x, 50 + 100 * point.y);
+    
+    for (var k = 1; k < l; k++) {
+        point = points[values[k]];
+        context.lineTo(50 + 100 * point.x, 50 + 100 * point.y);
+    }
+    
+    context.closePath();
+    context.stroke();
+}
+
+var fn = function (x, y) {
+    return Math.sin(x) * Math.cos(y);
+}
+
+var population = fnxy.createPopulation(10000, fn, -10, 10, -10, 10);
+var mutators = [];
+
+mutators.push(fnxy.createMutator(10, -10, 10, -10, 10));
+mutators.push(fnxy.createMutator(5, -10, 10, -10, 10));
+mutators.push(fnxy.createMutator(1, -10, 10, -10, 10));
+mutators.push(fnxy.createMutator(0.1, -10, 10, -10, 10));
+mutators.push(fnxy.createMutator(0.01, -10, 10, -10, 10));
+mutators.push(fnxy.createMutator(0.001, -10, 10, -10, 10));
+
+var engine = new simplega.Engine();
+
+engine.setPopulation(population);
+engine.setMutators(mutators);
+
+setTimeout(doStep, 10);
+
+function doStep() {
+    engine.setPopulation(population);
+    population = engine.nextPopulation();
+    drawPopulation(population);
+    
+    setTimeout(doStep, 10);
+}
+
+function relaunch() {
+    var newpopulation = fnxy.createPopulation(10000, fn, -10, 10, -10, 10);
+    population = newpopulation;
+}
+
+</script>
+</body>
+</html>
