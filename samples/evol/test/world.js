@@ -26,3 +26,16 @@ exports['seed world'] = function (test) {
         }
 }
 
+exports['grow world'] = function (test) {
+    var world = evol.createWorld(4, 4);
+    
+    world.seed(50, 100);
+    world.grow(0.10, 100);
+    
+    for (var x = 0; x < 4; x++)
+        for (var y = 0; y < 4; y++) {
+            test.ok(world.value(x, y) >= 50 * 1.1);
+            test.ok(world.value(x, y) <= 100);
+        }
+}
+

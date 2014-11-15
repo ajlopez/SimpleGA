@@ -21,6 +21,12 @@ var Evol = (function () {
                 for (var y = 0; y < h; y++)
                     values[x][y] = from + Math.random() * (to - from);
         }
+        
+        this.grow = function (ratio, max) {
+            for (var x = 0; x < w; x++)
+                for (var y = 0; y < h; y++)
+                    values[x][y] = Math.min(values[x][y] * (1 + ratio), max);
+        }
     }
 
     return {
