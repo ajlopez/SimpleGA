@@ -1,0 +1,155 @@
+<html>
+<head>
+<title>Evolutionary World</title>
+<script src="../../lib/simplega.js" language="javascript"></script>
+<script src="./evol.js" language="javascript"></script>
+</head>
+<body>
+<h1>Evolutionary World</h1>
+
+<div>
+<input type="button" value="Relaunch" onclick="relaunch()">
+<input type="button" value="Refill" onclick="refill()">
+<input type="button" value="Run Generation" onclick="runGeneration()">
+</div>
+
+<div>
+<canvas id="canvas" width="400" height="400">
+</canvas>
+</div>
+<pre id='bestcode'>
+</pre>
+
+<script language="javascript">
+var canvas = document.getElementById("canvas");
+var context = canvas.getContext("2d");
+
+var width = 20;
+var height = 20;
+var sqwidth = 20;
+var sqheight = 20;
+
+var world;
+var animals;
+
+createWorld();
+createAnimals();
+
+var mutators = [];
+
+/*
+mutators.push(fnxy.createMutator(10, -10, 10, -10, 10));
+mutators.push(fnxy.createMutator(5, -10, 10, -10, 10));
+mutators.push(fnxy.createMutator(1, -10, 10, -10, 10));
+mutators.push(fnxy.createMutator(0.1, -10, 10, -10, 10));
+mutators.push(fnxy.createMutator(0.01, -10, 10, -10, 10));
+mutators.push(fnxy.createMutator(0.001, -10, 10, -10, 10));
+*/
+
+
+function runGeneration() {
+    var engine = new simplega.Engine();
+
+    engine.setPopulation(animals);
+    engine.setMutators(mutators);
+    
+    var newanimals = engine.nextPopulation();
+    animals = [];
+    
+    for (var k = 0; k < newanimals.length; k++) {
+        var animal = newanimals[k].clone();
+        animal.energy(50);
+        animals.push(animal);
+    }
+    
+    world.seed(0, 200);
+}
+
+function createWorld() {
+    world = Evol.createWorld(width, height);
+    world.seed(0, 200);
+}
+
+function createAnimals() {
+    animals = [];
+
+    for (var k = 0; k < width + height; k++) {
+        var animal = Evol.createAnimal({ energy: 50, eat: 30, move: 5 });
+        animal.genes = Evol.createGenes();
+        animal.run = Evol.genesToFunction(animal.genes);
+        animal.world(world);
+        animals.push(animal);
+    }
+}
+
+function drawWorld(world, animals)
+{
+    context.fillStyle="black";
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    
+    var w = world.width();
+    var h = world.height();
+    var sqw = canvas.width / w;
+    var sqh = canvas.height / h;
+    
+    for (var x = 0; x < w; x++)
+        for (var y = 0; y < h; y++) {
+            var value = Math.floor(Math.min(world.value(x, y), 255));
+            var px = x * sqw;
+            var py = y * sqh;
+            var color = "rgb(0," + value + ",0)";
+            context.fillStyle = color; 
+            context.fillRect(px, py, sqw, sqh);
+        }
+        
+    var dx = Math.max(1, sqw / 3);
+    var dy = Math.max(1, sqh / 3);
+    
+    var best = null;
+    var bestenergy = 0;
+        
+    for (var k = 0; k < animals.length; k++) {
+        var animal = animals[k];
+        
+        if (best == null || animal.energy() > bestenergy) {
+            best = animal;
+            bestenergy = animal.energy();
+        }
+        
+        var x = animal.x();
+        var y = animal.y();
+        var px = x * sqw + Math.floor(Math.random() * sqw);
+        var py = y * sqh + Math.floor(Math.random() * sqh);
+        var red = Math.floor(Math.min(animal.energy(), 200) + 55);
+        var color = "rgb(" + red + ",0,0)";
+        context.fillStyle = color; 
+        context.fillRect(px, py, dx, dy);
+    }
+    
+    if (best)
+        document.getElementById("bestcode").innerHTML = best.run.toString();
+}
+
+setTimeout(doStep, 10);
+
+function doStep() {
+    drawWorld(world, animals);
+    world.grow(0.01, 255);
+    
+    animals.forEach(function (animal) { animal.run(); });
+    
+    setTimeout(doStep, 10);
+}
+
+function relaunch() {
+    createWorld();
+    createAnimals();
+}
+
+function refill() {
+    world.seed(0, 200);
+}
+
+</script>
+</body>
+</html>

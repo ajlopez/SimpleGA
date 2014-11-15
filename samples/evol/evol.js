@@ -107,7 +107,7 @@ var Evol = (function () {
         var y;
         var world;
         
-        this.energy = function () { return energy; }
+        this.energy = function (value) { if (value != null) energy = value; return energy; }
         
         this.world = function (newworld) {
             world = newworld;
@@ -121,9 +121,12 @@ var Evol = (function () {
         this.clone = function () {
             var newanimal = new Animal(options);
             newanimal.world(world);
-            newanimal.genes = genes;
+            newanimal.genes = this.genes;
+            newanimal.run = this.run;
             return newanimal;
         }
+        
+        this.evaluate = function () { return energy; }
         
         this.eat = function () {
             var value = world.value(x, y);
@@ -191,7 +194,9 @@ var Evol = (function () {
 
     return {
         createWorld: function (width, height) { return new World(width, height); },
-        createAnimal: function (options) { return new Animal(options); }
+        createAnimal: function (options) { return new Animal(options); },
+        createGenes: createGenes,
+        genesToFunction: genesToFunction
     }
 })();
 
