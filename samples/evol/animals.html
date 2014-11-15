@@ -26,7 +26,7 @@ world.seed(0, 200);
 var animals = [];
 
 for (var k = 0; k < width + height; k++) {
-    var animal = Evol.createAnimal({ energy: 100, eat: 20, move: 5 });
+    var animal = Evol.createAnimal({ energy: 50, eat: 20, move: 5 });
         animal.run = function () {
             if (Math.random() < 0.1)
                 return this.move(0, 1);
@@ -62,7 +62,6 @@ function drawWorld(world, animals)
             context.fillRect(px, py, sqw, sqh);
         }
         
-    context.fillStyle = 'red';
     var dx = Math.max(1, sqw / 3);
     var dy = Math.max(1, sqh / 3);
         
@@ -72,6 +71,9 @@ function drawWorld(world, animals)
         var y = animal.y();
         var px = x * sqw + Math.floor(Math.random() * sqw);
         var py = y * sqh + Math.floor(Math.random() * sqh);
+        var red = Math.floor(Math.min(animal.energy(), 200) + 55);
+        var color = "rgb(" + red + ",0,0)";
+        context.fillStyle = color; 
         context.fillRect(px, py, dx, dy);
     }
 }
@@ -94,7 +96,7 @@ function relaunch() {
     animals = [];
 
     for (var k = 0; k < width + height; k++) {
-        var animal = Evol.createAnimal({ energy: 100, eat: 20, move: 5 });
+        var animal = Evol.createAnimal({ energy: 50, eat: 20, move: 5 });
         animal.run = function () {
             if (Math.random() < 0.1)
                 return this.move(0, 1);
