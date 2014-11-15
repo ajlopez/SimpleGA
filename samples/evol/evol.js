@@ -29,7 +29,7 @@ var Evol = (function () {
     }
     
     function genToCode(gen) {
-        return "if (Math.random() < " + gen.value + ") return " + actions[gen.action] + ";";
+        return "if (Math.random() < " + gen.value + ") return " + actions[gen.action] + ";\n";
     }
     
     function genesToFunction(genes) {
@@ -158,6 +158,26 @@ var Evol = (function () {
         }
     }
     
+    function Mutator() {
+        this.mutate = function (animal) {
+            var newanimal = animal.clone();
+            
+            if (Math.random() < 0.2) {
+                newanimal.genes = insertGen(newanimal.genes);
+                newanimal.run = genesToFunction(newanimal.genes);
+                return newanimal;
+            }
+            
+            if (Math.random() < 0.2) {
+                newanimal.genes = eraseGen(newanimal.genes);
+                newanimal.run = genesToFunction(newanimal.genes);
+                return newanimal;
+            }
+            
+            return animal;
+        }
+    }
+    
     function World(w, h) {
         var values = [];
         
@@ -195,6 +215,7 @@ var Evol = (function () {
     return {
         createWorld: function (width, height) { return new World(width, height); },
         createAnimal: function (options) { return new Animal(options); },
+        createMutator: function () { return new Mutator(); },
         createGenes: createGenes,
         genesToFunction: genesToFunction
     }

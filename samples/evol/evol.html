@@ -37,15 +37,8 @@ createAnimals();
 
 var mutators = [];
 
-/*
-mutators.push(fnxy.createMutator(10, -10, 10, -10, 10));
-mutators.push(fnxy.createMutator(5, -10, 10, -10, 10));
-mutators.push(fnxy.createMutator(1, -10, 10, -10, 10));
-mutators.push(fnxy.createMutator(0.1, -10, 10, -10, 10));
-mutators.push(fnxy.createMutator(0.01, -10, 10, -10, 10));
-mutators.push(fnxy.createMutator(0.001, -10, 10, -10, 10));
-*/
-
+for (var k = 0; k < 10; k++)
+    mutators.push(Evol.createMutator());
 
 function runGeneration() {
     var engine = new simplega.Engine();
@@ -74,7 +67,7 @@ function createAnimals() {
     animals = [];
 
     for (var k = 0; k < width + height; k++) {
-        var animal = Evol.createAnimal({ energy: 50, eat: 30, move: 5 });
+        var animal = Evol.createAnimal({ energy: 50, eat: 50, move: 5 });
         animal.genes = Evol.createGenes();
         animal.run = Evol.genesToFunction(animal.genes);
         animal.world(world);
@@ -148,6 +141,8 @@ function relaunch() {
 
 function refill() {
     world.seed(0, 200);
+    
+    animals.forEach(function (animal) { animal.energy(200); });
 }
 
 </script>
