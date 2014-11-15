@@ -5,6 +5,7 @@ var Evol = (function () {
         
         var energy = options.energy || 0;
         var food = options.eat || 0;
+        var move = options.move || 0;
         var x;
         var y;
         var world;
@@ -29,6 +30,24 @@ var Evol = (function () {
                 
             energy += eat;
             world.value(x, y, value - eat);
+        }
+        
+        this.move = function (dx, dy) {
+            if (energy < move)
+                return;
+                
+            energy -= move;
+            x += dx;
+            y += dy;
+            
+            while (x < 0)
+                x += world.width();
+            while (x >= world.width())
+                x -= world.width();
+            while (y < 0)
+                y += world.height();
+            while (y >= world.height())
+                y -= world.height();
         }
     }
     
