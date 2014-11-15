@@ -1,5 +1,102 @@
 
 var Evol = (function () {
+    var actions = [ "this.eat()", "this.move(1, 0)", "this.move(0,1)", "this.move(-1, 0)", "this.move(0, -1)" ];
+    
+    function createGen() {
+        return {
+            value: Math.random(),
+            action: Math.floor(Math.random() * actions.length)
+        }
+    }
+    
+    function alterGenAction(gen) {
+        return {
+            value: gen.value,
+            action: Math.floor(Math.random() * actions.length)
+        }
+    }
+    
+    function alterGenValue(gen) {
+        var newvalue = gen.value + Math.random() * 0.2 - 0.1;
+        
+        newvalue = Math.max(0, newvalue);
+        newvalue = Math.min(1, newvalue);
+        
+        return {
+            value: newvalue,
+            action: gen.action
+        }
+    }
+    
+    function genToCode(gen) {
+        return "if (Math.random() < " + gen.value + ") return " + actions[gen.action] + ";";
+    }
+    
+    function genesToFunction(genes) {
+        var code = "";
+        
+        for (var k = 0; k < genes.length; k++)
+            code += genToCode(genes[k]);
+            
+        return new Function(code);
+    }
+    
+    function createGenes() {
+        var genes = [];
+        
+        genes.push(createGen());
+        
+        while (Math.random() < 0.6)
+            genes.push(createGen());
+            
+        return genes;
+    }
+    
+    function eraseGen(genes) {
+        if (genes.length <= 1)
+            return;
+            
+        var pos = Math.floor(Math.random() * genes.length);
+        
+        var newgenes = [];
+        
+        for (var k = 0; k < genes.length; k++)
+            if (k != pos)
+                newgenes.push(genes[k]);
+                
+        return newgenes;
+    }
+    
+    function insertGen(genes) {
+        if (genes.length >= 10)
+            return;
+            
+        var pos = Math.floor(Math.random() * genes.length);
+        
+        var newgenes = [];
+        
+        for (var k = 0; k < genes.length; k++) {
+            if (k == pos)
+                newgenes.push(createGen());
+                
+            newgenes.push(genes[k]);
+        }
+                
+        return newgenes;
+    }
+    
+    function alterGen(genes) {
+        var pos = Math.floor(Math.random() * genes.length);
+        var newgenes = genes.slice();
+        
+        if (Math.random() < 0.5)
+            newgenes[pos] = genAlterAction(genes[pos]);
+        else
+            newgenes[pos] = genAlterValue(genes[pos]);
+            
+        return newgenes;
+    }
+    
     function Animal(options) {
         options = options || { };
         
@@ -20,6 +117,13 @@ var Evol = (function () {
         
         this.x = function () { return x; }
         this.y = function () { return y; }
+        
+        this.clone = function () {
+            var newanimal = new Animal(options);
+            newanimal.world(world);
+            newanimal.genes = genes;
+            return newanimal;
+        }
         
         this.eat = function () {
             var value = world.value(x, y);

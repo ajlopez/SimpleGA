@@ -6,10 +6,15 @@
 <body>
 <h1>World</h1>
 
+<div>
 <input type="button" value="Relaunch" onclick="relaunch()">
+<input type="button" value="Refill" onclick="refill()">
+</div>
 
+<div>
 <canvas id="canvas" width="400" height="400">
 </canvas>
+</div>
 
 <script language="javascript">
 var canvas = document.getElementById("canvas");
@@ -20,26 +25,36 @@ var height = 20;
 var sqwidth = 20;
 var sqheight = 20;
 
-var world = Evol.createWorld(width, height);
-world.seed(0, 200);
+var world;
+var animals;
 
-var animals = [];
+createWorld();
+createAnimals();
 
-for (var k = 0; k < width + height; k++) {
-    var animal = Evol.createAnimal({ energy: 50, eat: 20, move: 5 });
-        animal.run = function () {
-            if (Math.random() < 0.1)
-                return this.move(0, 1);
-            if (Math.random() < 0.1)
-                return this.move(0, -1);
-            if (Math.random() < 0.1)
-                return this.move(1, 0);
-            if (Math.random() < 0.1)
-                return this.move(-1, 0);
-            this.eat();
-        }
-    animal.world(world);
-    animals.push(animal);
+function createWorld() {
+    world = Evol.createWorld(width, height);
+    world.seed(0, 200);
+}
+
+function createAnimals() {
+    animals = [];
+
+    for (var k = 0; k < width + height; k++) {
+        var animal = Evol.createAnimal({ energy: 50, eat: 20, move: 5 });
+            animal.run = function () {
+                if (Math.random() < 0.1)
+                    return this.move(0, 1);
+                if (Math.random() < 0.1)
+                    return this.move(0, -1);
+                if (Math.random() < 0.1)
+                    return this.move(1, 0);
+                if (Math.random() < 0.1)
+                    return this.move(-1, 0);
+                this.eat();
+            }
+        animal.world(world);
+        animals.push(animal);
+    }
 }
 
 function drawWorld(world, animals)
@@ -90,27 +105,12 @@ function doStep() {
 }
 
 function relaunch() {
-    world = Evol.createWorld(width, height);
-    world.seed(0, 200);
-    
-    animals = [];
+    createWorld();
+    createAnimals();
+}
 
-    for (var k = 0; k < width + height; k++) {
-        var animal = Evol.createAnimal({ energy: 50, eat: 20, move: 5 });
-        animal.run = function () {
-            if (Math.random() < 0.1)
-                return this.move(0, 1);
-            if (Math.random() < 0.1)
-                return this.move(0, -1);
-            if (Math.random() < 0.1)
-                return this.move(1, 0);
-            if (Math.random() < 0.1)
-                return this.move(-1, 0);
-            this.eat();
-        }
-        animal.world(world);
-        animals.push(animal);
-    }
+function refill() {
+    world.seed(0, 200);
 }
 
 </script>
