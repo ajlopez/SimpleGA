@@ -24,6 +24,12 @@ var Path = (function () {
         this.stones = function (from, to) {
             var stones = [];
             
+            if (from.x > to.x) {
+                var temp = from;
+                from = to;
+                to = temp;                
+            }
+            
             for (var x = from.x; x <= to.x; x++)
                 if (this.get(x, to.y))
                     stones.push({ x: x, y: to.y });
