@@ -50,8 +50,21 @@ var Path = (function () {
         }
     }
     
+    // http://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
+    function distance(from, to, point) {
+        var dx = to.x - from.x;
+        var dy = to.y - from.y;
+        
+        var a = -dy;
+        var b = dx;
+        var c = dy * from.x - dx * from.y;
+        
+        return Math.abs(a * point.x + b * point.y + c) / Math.sqrt(a * a + b * b);
+    }
+    
     return {
-        createWorld: function (w, h) { return new World(w, h); }
+        createWorld: function (w, h) { return new World(w, h); },
+        distance: function (from, to, point) { return distance(from, to, point); }
     }
 })();
 
