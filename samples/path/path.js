@@ -20,6 +20,25 @@ var Path = (function () {
                 for (var y = 0; y < height; y++)
                     values[y * width + x] = Math.random() <= ratio;
         }
+
+        this.points = function (from, to) {
+            var points = [];
+            
+            if (from.x > to.x || (from.x == to.x && from.y > to.y)) {
+                var temp = from;
+                from = to;
+                to = temp;                
+            }
+            
+            if (from.y == to.y) {
+                for (var x = from.x; x <= to.x; x++)
+                    points.push({ x: x, y: to.y });
+                        
+                return points;
+            }
+            
+            return points;
+        }
         
         this.stones = function (from, to) {
             var stones = [];
