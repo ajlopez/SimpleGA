@@ -24,15 +24,27 @@ var Path = (function () {
         this.stones = function (from, to) {
             var stones = [];
             
-            if (from.x > to.x) {
+            if (from.x > to.x || (from.x == to.x && from.y > to.y)) {
                 var temp = from;
                 from = to;
                 to = temp;                
             }
             
-            for (var x = from.x; x <= to.x; x++)
-                if (this.get(x, to.y))
-                    stones.push({ x: x, y: to.y });
+            if (from.y == to.y) {
+                for (var x = from.x; x <= to.x; x++)
+                    if (this.get(x, to.y))
+                        stones.push({ x: x, y: to.y });
+                        
+                return stones;
+            }
+            
+            if (from.x == to.x) {
+                for (var y = from.y; y <= to.y; y++)
+                    if (this.get(to.x, y))
+                        stones.push({ x: to.x, y: y });
+                
+                return stones;
+            }
             
             return stones;
         }

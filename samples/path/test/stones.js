@@ -55,3 +55,30 @@ exports['inverse horizontal line one stone'] = function (test) {
     test.equal(stones[0].x, 3);
     test.equal(stones[0].y, 0);
 };
+
+exports['vertical line one stone'] = function (test) {
+    var world = path.createWorld(10, 10);
+    world.set(3, 3, true);    
+    
+    var stones = world.stones({ x: 0, y: 3 }, { x: 6, y: 3 });
+    
+    test.ok(stones);
+    test.ok(Array.isArray(stones));
+    test.equal(stones.length, 1);
+    test.equal(stones[0].x, 3);
+    test.equal(stones[0].y, 3);
+};
+
+exports['inverse vertical line one stone'] = function (test) {
+    var world = path.createWorld(10, 10);
+    world.set(3, 3, true);    
+    
+    var stones = world.stones({ x: 6, y: 3 }, { x: 0, y: 3 });
+    
+    test.ok(stones);
+    test.ok(Array.isArray(stones));
+    test.equal(stones.length, 1);
+    test.equal(stones[0].x, 3);
+    test.equal(stones[0].y, 3);
+};
+
