@@ -52,44 +52,33 @@ var Path = (function () {
             var toy = to.y + dy;
             var fromx = from.x;
             
-            for (var y = from.y; y != toy; y += dy)
+            for (var y = from.y; y != toy; y += dy) {
+                var npoints = 0;
                 for (var x = fromx; x <= to.x; x++) {
                     var point = { x: x, y: y };
+                    
                     if (distance(from, to, point) <= 0.5) {
-                        fromx = x + 1;
+                        if (npoints == 0)
+                            fromx = x;
                         points.push(point);
+                        npoints++;
                     }
-                    else
+                    else if (npoints)
                         break;
                 }
+            }
             
             return points;
         }
         
         this.stones = function (from, to) {
             var stones = [];
+            var points = this.points(from, to);
+            var npoints = points.length;
             
-            if (from.x > to.x || (from.x == to.x && from.y > to.y)) {
-                var temp = from;
-                from = to;
-                to = temp;                
-            }
-            
-            if (from.y == to.y) {
-                for (var x = from.x; x <= to.x; x++)
-                    if (this.get(x, to.y))
-                        stones.push({ x: x, y: to.y });
-                        
-                return stones;
-            }
-            
-            if (from.x == to.x) {
-                for (var y = from.y; y <= to.y; y++)
-                    if (this.get(to.x, y))
-                        stones.push({ x: to.x, y: y });
-                
-                return stones;
-            }
+            for (var k = 0; k < npoints; k++)
+                if (this.get(points[k].x, points[k].y))
+                    stones.push(points[k]);
             
             return stones;
         }

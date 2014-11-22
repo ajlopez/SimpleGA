@@ -42,3 +42,36 @@ exports['diagonal short line'] = function (test) {
     test.equal(points[1].x, 1);
     test.equal(points[1].y, 1);
 };
+
+exports['diagonal inverse short line'] = function (test) {
+    var world = path.createWorld(10, 10);
+    var points = world.points({ x: 1, y: 1 }, { x: 0, y: 0 });
+    
+    test.ok(points);
+    test.ok(Array.isArray(points));
+    test.equal(points.length, 2);
+    
+    test.equal(points[0].x, 0);
+    test.equal(points[0].y, 0);
+    test.equal(points[1].x, 1);
+    test.equal(points[1].y, 1);
+};
+
+exports['diagonal line'] = function (test) {
+    var world = path.createWorld(10, 10);
+    var points = world.points({ x: 0, y: 0 }, { x: 1, y: 2 });
+    
+    test.ok(points);
+    test.ok(Array.isArray(points));
+    test.equal(points.length, 4);
+    
+    test.equal(points[0].x, 0);
+    test.equal(points[0].y, 0);
+    test.equal(points[1].x, 0);
+    test.equal(points[1].y, 1);
+    test.equal(points[2].x, 1);
+    test.equal(points[2].y, 1);
+    test.equal(points[3].x, 1);
+    test.equal(points[3].y, 2);
+};
+
