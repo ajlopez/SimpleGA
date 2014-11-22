@@ -22,7 +22,13 @@ var Path = (function () {
         }
         
         this.stones = function (from, to) {
-            return [];
+            var stones = [];
+            
+            for (var x = from.x; x <= to.x; x++)
+                if (this.get(x, to.y))
+                    stones.push({ x: x, y: to.y });
+            
+            return stones;
         }
     }
     
