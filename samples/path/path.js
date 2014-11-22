@@ -37,6 +37,13 @@ var Path = (function () {
                 return points;
             }
             
+            if (from.x == to.x) {
+                for (var y = from.y; y <= to.y; y++)
+                    points.push({ x: to.x, y: y });
+                        
+                return points;
+            }
+            
             return points;
         }
         
