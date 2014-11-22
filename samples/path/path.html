@@ -1,0 +1,99 @@
+<html>
+<head>
+<title>World</title>
+<script src="./path.js" language="javascript"></script>
+</head>
+<body>
+<h1>World</h1>
+
+<div>
+<input type="button" value="New World" onclick="newworld()">
+<input type="button" value="New Path" onclick="newpath()">
+</div>
+
+<div>
+<canvas id="canvas" width="400" height="400">
+</canvas>
+</div>
+
+<script language="javascript">
+var world;
+var path;
+
+var canvas = document.getElementById("canvas");
+var context = canvas.getContext("2d");
+
+var width = 20;
+var height = 20;
+var sqwidth = 20;
+var sqheight = 20;
+
+newworld();
+
+function drawWorld(world)
+{
+    context.fillStyle="white";
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    
+    var w = world.width();
+    var h = world.height();
+    var sqw = canvas.width / w;
+    var sqh = canvas.height / h;
+    var radius = Math.sqrt(sqw * sqw + sqh * sqh) / 2;
+    var radians = Math.PI * 2;
+    
+    context.fillStyle="black";
+    
+    for (var x = 0; x < w; x++)
+        for (var y = 0; y < h; y++)
+            if (world.get(x, y)) {
+                var px = x * sqw;
+                var py = y * sqh;
+                context.beginPath();
+                context.ellipse(px + sqw / 2, py + sqh / 2, sqw / 2, sqh / 2, 0, 0, radians, false);
+                context.fill();
+            }
+}
+
+function drawPath(path) {
+    var npoints = path.length;
+
+    context.strokeStyle="black";
+
+    var w = world.width();
+    var h = world.height();
+    var sqw = canvas.width / w;
+    var sqh = canvas.height / h;
+    
+    for (var k = 0; k < npoints - 1; k++) {
+        var from = path[k];
+        var to = path[k + 1];
+        
+        var px1 = from.x * sqw + sqw / 2;
+        var py1 = from.y * sqh + sqh / 2;
+        
+        var px2 = to.x * sqw + sqw / 2;
+        var py2 = to.y * sqh + sqh / 2;
+        
+        context.beginPath();
+        context.moveTo(px1, py1);
+        context.lineTo(px2, py2);
+        context.stroke();
+    }
+}
+
+function newworld() {
+    world = Path.createWorld(width, height);
+    world.fill(0.10);
+    drawWorld(world);
+}
+
+function newpath() {
+    path = Path.createPath({ x: 0, y: 0 }, { x: width - 1, y: height - 1 }, width, height);
+    drawWorld(world);
+    drawPath(path);
+}
+
+</script>
+</body>
+</html>

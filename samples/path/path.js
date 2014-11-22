@@ -1,5 +1,36 @@
 
 var Path = (function () {    
+    function Genotype(world, path) {
+        var evaluated = false;
+        var stonevalue = world.width() * world.width() + world.height() * world.height();
+        var value;
+        var npoints = path.length;
+        
+        this.path = function () { return path; }
+        
+        this.evaluate = function () {
+            if (evaluated)
+                return value;
+                
+            value = 0;
+            
+            for (var k = 0; k < npoints - 1; k++) {
+                var from = path[k];
+                var to = path[k + 1];
+                
+                value += (from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y);
+                
+                var stones = world.stones(from, to);
+                
+                value += stones.length * stonevalue;
+            }
+            
+            evaluated = true;
+            
+            return value;
+        }
+    }
+
     function World(width, height) {
         var values = [];
         
@@ -111,10 +142,16 @@ var Path = (function () {
         return points;
     }
     
+    function createGenotype(world, from, to, ratio) {
+        var path = createPath(from, to, world.width(), world.height(), ratio);
+        return new Genotype(world, path);
+    }
+    
     return {
         createWorld: function (w, h) { return new World(w, h); },
         distance: function (from, to, point) { return distance(from, to, point); },
-        createPath: createPath
+        createPath: createPath,
+        createGenotype: createGenotype
     }
 })();
 
