@@ -35,6 +35,8 @@ function drawWorld(world)
     var h = world.height();
     var sqw = canvas.width / w;
     var sqh = canvas.height / h;
+    var radius = Math.sqrt(sqw * sqw + sqh * sqh) / 2;
+    var radians = Math.PI * 2;
     
     context.fillStyle="black";
     
@@ -43,7 +45,11 @@ function drawWorld(world)
             if (world.get(x, y)) {
                 var px = x * sqw;
                 var py = y * sqh;
-                context.fillRect(px, py, sqw, sqh);
+                // context.fillRect(px, py, sqw, sqh);
+                // http://www.rgraph.net/blog/2013/january/html5-canvas-ellipse.html
+                context.beginPath();
+                context.ellipse(px + sqw / 2, py + sqh / 2, sqw / 2, sqh / 2, 0, 0, radians, false);
+                context.fill();
             }
 }
 
