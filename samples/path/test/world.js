@@ -28,3 +28,13 @@ exports['fill world ramdomly'] = function (test) {
     test.ok(count > 5);
 };
 
+exports['set and get'] = function (test) {
+    var world = path.createWorld(10, 10);
+
+    test.ok(!world.get(5, 5));
+    world.set(5, 5, true);
+    test.ok(world.get(5, 5));
+    world.set(5, 5, false);
+    test.ok(!world.get(5, 5));
+};
+

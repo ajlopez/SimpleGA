@@ -13,6 +13,8 @@ var Path = (function () {
         
         this.get = function (x, y) { return values[y * width + x]; }
         
+        this.set = function (x, y, value) { values[y * width + x] = value; }
+        
         this.fill = function (ratio) {
             for (var x = 0; x < width; x++)
                 for (var y = 0; y < height; y++)

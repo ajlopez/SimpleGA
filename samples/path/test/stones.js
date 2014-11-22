@@ -27,3 +27,15 @@ exports['diagonal line free world'] = function (test) {
     test.ok(Array.isArray(stones));
     test.equal(stones.length, 0);
 };
+
+exports['horizontal line one stone'] = function (test) {
+    var world = path.createWorld(10, 10);
+    
+    world.set(0, 3, true);
+    
+    var stones = world.stones({ x: 0, y: 0 }, { x: 6, y: 0 });
+    
+    test.ok(stones);
+    test.ok(Array.isArray(stones));
+    test.equal(stones.length, 0);
+};
