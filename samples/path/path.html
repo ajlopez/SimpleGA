@@ -1,6 +1,7 @@
 <html>
 <head>
 <title>World</title>
+<script src="../../lib/simplega.js" language="javascript"></script>
 <script src="./path.js" language="javascript"></script>
 </head>
 <body>
@@ -10,6 +11,13 @@
 <input type="button" value="New World" onclick="newworld()">
 <input type="button" value="New Path" onclick="newpath()">
 <input type="button" value="New Genotype" onclick="newgenotype()">
+<input type="button" value="Best Genotype" onclick="showbestgenotype()">
+<input type="button" value="Run" onclick="runga()">
+<input type="button" value="Stop" onclick="stopga()">
+</div>
+
+<div id="genvalue" style="font-size: 20pt">
+&nbsp;
 </div>
 
 <div>
@@ -21,6 +29,10 @@
 var world;
 var path;
 var genotype;
+var bestgenotype;
+var bestvalue;
+var engine;
+var running;
 
 var canvas = document.getElementById("canvas");
 var context = canvas.getContext("2d");
@@ -88,6 +100,7 @@ function newworld() {
     world = Path.createWorld(width, height);
     world.fill(0.10);
     drawWorld(world);
+    bestgenotype = null;
 }
 
 function newpath() {
@@ -96,13 +109,59 @@ function newpath() {
     drawPath(path);
 }
 
+function showbestgenotype() {
+    if (!bestgenotype)
+        return;
+    drawWorld(world);
+    drawPath(bestgenotype.path());
+    document.getElementById("genvalue").innerHTML = bestvalue;
+}
+
 function newgenotype() {
     genotype = Path.createGenotype(world, { x: 0, y: 0 }, { x: width - 1, y: height - 1 });
     path = genotype.path();
     drawWorld(world);
     drawPath(path);
-    alert(genotype.evaluate());
+    var value = genotype.evaluate();
+    document.getElementById("genvalue").innerHTML = value;
+    
+    if (!bestgenotype || bestvalue > value) {
+        bestgenotype = genotype;
+        bestvalue = value;
+    }
 }
+
+function runGeneration() {
+    var newgenotypes = engine.nextPopulation();
+    bestgenotype = simplega.getBestGenotype(newgenotypes, { minimize: true });
+    showbestgenotype();
+    if (running)
+        setTimeout(runGeneration, 10);
+}
+
+function runga() {
+    var genotypes = [];
+    
+    for (var k = 0; k < 100; k++)
+        genotypes.push(Path.createGenotype(world, { x: 0, y: 0 }, { x: width - 1, y: height - 1 }));
+    
+    var mutators = [];
+
+    for (var k = 0; k < 10; k++)
+        mutators.push(Path.createMutator());
+
+    engine = new simplega.Engine({ minimize: true });
+    engine.setPopulation(genotypes);
+    engine.setMutators(mutators);
+    running = true;
+    
+    runGeneration();
+}
+
+function stopga() {
+    running = false;
+}
+
 </script>
 </body>
 </html>

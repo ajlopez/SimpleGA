@@ -1,5 +1,66 @@
 
 var Path = (function () {    
+    function Mutator() {
+        this.mutate = function (genotype) {
+            var path = genotype.path();
+            var world = genotype.world();
+            var width = world.width();
+            var height = world.height();
+            
+            var dice = Math.floor(Math.random() * 1000);
+            
+            if (dice % 4 == 0)
+                return new Genotype(world, insertPoint(path, width, height));
+                
+            if (path.length > 2 && dice % 4 == 1)
+                return new Genotype(world, movePoint(path, width, height));
+                
+            if (path.length > 2 && dice % 4 == 2)
+                return new Genotype(world, removePoint(path));
+                
+            return genotype;
+        }
+        
+        function insertPoint(path, width, height) {
+            var newpath = path.slice();
+            var position = Math.floor(Math.random() * (path.length - 1)) + 1;
+            var newpoint = { x: Math.floor(Math.random() * width), y: Math.floor(Math.random() * height) };
+            newpath.splice(position, 0, newpoint);
+            return newpath;
+        }
+        
+        function movePoint(path, width, height) {
+            var newpath = path.slice();
+            var position = Math.floor(Math.random() * (path.length - 1)) + 1;
+            var point = path[position];
+            var dx = Math.floor(Math.random() * 5) - 2;
+            var dy = Math.floor(Math.random() * 5) - 2;
+            var newx = point.x + dx;
+            var newy = point.y + dy;
+            
+            if (newx < 0)
+                newx = 0;
+            if (newx >= width)
+                newx = width - 1;
+            if (newy < 0)
+                newy = 0;
+            if (newy >= height)
+                newy = height - 1;
+                
+            var newpoint = { x: newx, y: newy };
+            newpath[position] = newpoint;
+            
+            return newpath;
+        }
+        
+        function removePoint(path) {
+            var newpath = path.slice();
+            var position = Math.floor(Math.random() * (path.length - 2)) + 1;
+            newpath.splice(position, 1);
+            return newpath;
+        }
+    }
+    
     function Genotype(world, path) {
         var evaluated = false;
         var stonevalue = world.width() * world.width() + world.height() * world.height();
@@ -7,6 +68,8 @@ var Path = (function () {
         var npoints = path.length;
         
         this.path = function () { return path; }
+        
+        this.world = function () { return world; }
         
         this.evaluate = function () {
             if (evaluated)
@@ -147,11 +210,16 @@ var Path = (function () {
         return new Genotype(world, path);
     }
     
+    function createMutator() {
+        return new Mutator();
+    }
+    
     return {
         createWorld: function (w, h) { return new World(w, h); },
         distance: function (from, to, point) { return distance(from, to, point); },
         createPath: createPath,
-        createGenotype: createGenotype
+        createGenotype: createGenotype,
+        createMutator: createMutator
     }
 })();
 
