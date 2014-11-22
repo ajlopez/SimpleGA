@@ -96,9 +96,25 @@ var Path = (function () {
         return Math.abs(a * point.x + b * point.y + c) / Math.sqrt(a * a + b * b);
     }
     
+    function createPath(from, to, width, height, ratio) {
+        if (!ratio)
+            ratio = 0.5;
+            
+        var points = [from, to];
+        
+        while (Math.random() <= ratio) {
+            var position = Math.floor(Math.random() * (points.length - 1)) + 1;
+            var newpoint = { x: Math.floor(Math.random() * width), y: Math.floor(Math.random() * height) };
+            points.splice(position, 0, newpoint);
+        }
+        
+        return points;
+    }
+    
     return {
         createWorld: function (w, h) { return new World(w, h); },
-        distance: function (from, to, point) { return distance(from, to, point); }
+        distance: function (from, to, point) { return distance(from, to, point); },
+        createPath: createPath
     }
 })();
 
