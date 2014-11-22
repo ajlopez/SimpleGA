@@ -1,0 +1,58 @@
+<html>
+<head>
+<title>World</title>
+<script src="./path.js" language="javascript"></script>
+</head>
+<body>
+<h1>World</h1>
+
+<div>
+<input type="button" value="New World" onclick="newworld()">
+</div>
+
+<div>
+<canvas id="canvas" width="400" height="400">
+</canvas>
+</div>
+
+<script language="javascript">
+var canvas = document.getElementById("canvas");
+var context = canvas.getContext("2d");
+
+var width = 20;
+var height = 20;
+var sqwidth = 20;
+var sqheight = 20;
+
+newworld();
+
+function drawWorld(world)
+{
+    context.fillStyle="white";
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    
+    var w = world.width();
+    var h = world.height();
+    var sqw = canvas.width / w;
+    var sqh = canvas.height / h;
+    
+    context.fillStyle="black";
+    
+    for (var x = 0; x < w; x++)
+        for (var y = 0; y < h; y++)
+            if (world.get(x, y)) {
+                var px = x * sqw;
+                var py = y * sqh;
+                context.fillRect(px, py, sqw, sqh);
+            }
+}
+
+function newworld() {
+    var world = Path.createWorld(width, height);
+    world.fill(0.10);
+    drawWorld(world);
+}
+
+</script>
+</body>
+</html>

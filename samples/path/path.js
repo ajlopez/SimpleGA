@@ -18,6 +18,10 @@ var Path = (function () {
                 for (var y = 0; y < height; y++)
                     values[y * width + x] = Math.random() <= ratio;
         }
+        
+        this.stones = function (from, to) {
+            return [];
+        }
     }
     
     return {
