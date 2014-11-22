@@ -44,6 +44,25 @@ var Path = (function () {
                 return points;
             }
             
+            var dy = 1;
+            
+            if (from.y > to.y)
+                dy = -1;
+                
+            var toy = to.y + dy;
+            var fromx = from.x;
+            
+            for (var y = from.y; y != toy; y += dy)
+                for (var x = fromx; x <= to.x; x++) {
+                    var point = { x: x, y: y };
+                    if (distance(from, to, point) <= 0.5) {
+                        fromx = x + 1;
+                        points.push(point);
+                    }
+                    else
+                        break;
+                }
+            
             return points;
         }
         
