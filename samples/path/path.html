@@ -9,6 +9,7 @@
 <div>
 <input type="button" value="New World" onclick="newworld()">
 <input type="button" value="New Path" onclick="newpath()">
+<input type="button" value="New Genotype" onclick="newgenotype()">
 </div>
 
 <div>
@@ -19,6 +20,7 @@
 <script language="javascript">
 var world;
 var path;
+var genotype;
 
 var canvas = document.getElementById("canvas");
 var context = canvas.getContext("2d");
@@ -94,6 +96,13 @@ function newpath() {
     drawPath(path);
 }
 
+function newgenotype() {
+    genotype = Path.createGenotype(world, { x: 0, y: 0 }, { x: width - 1, y: height - 1 });
+    path = genotype.path();
+    drawWorld(world);
+    drawPath(path);
+    alert(genotype.evaluate());
+}
 </script>
 </body>
 </html>
