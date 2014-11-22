@@ -133,8 +133,17 @@ function newgenotype() {
 
 function runGeneration() {
     var newgenotypes = engine.nextPopulation();
-    bestgenotype = simplega.getBestGenotype(newgenotypes, { minimize: true });
-    showbestgenotype();
+    best = simplega.getBestGenotype(newgenotypes, { minimize: true });
+    drawWorld(world);
+    drawPath(best.path());
+    var value = best.evaluate();
+    document.getElementById("genvalue").innerHTML = value;    
+    
+    if (!bestgenotype || bestvalue > value) {
+        bestgenotype = best;
+        bestvalue = value;
+    }
+    
     if (running)
         setTimeout(runGeneration, 10);
 }
@@ -142,12 +151,12 @@ function runGeneration() {
 function runga() {
     var genotypes = [];
     
-    for (var k = 0; k < 100; k++)
+    for (var k = 0; k < 1000; k++)
         genotypes.push(Path.createGenotype(world, { x: 0, y: 0 }, { x: width - 1, y: height - 1 }));
     
     var mutators = [];
 
-    for (var k = 0; k < 10; k++)
+    for (var k = 0; k < 4; k++)
         mutators.push(Path.createMutator());
 
     engine = new simplega.Engine({ minimize: true });

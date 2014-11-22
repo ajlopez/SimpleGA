@@ -56,6 +56,8 @@ var Path = (function () {
         function removePoint(path) {
             var newpath = path.slice();
             var position = Math.floor(Math.random() * (path.length - 2)) + 1;
+            if (position == path.length - 1)
+                return newpath;
             newpath.splice(position, 1);
             return newpath;
         }
