@@ -53,9 +53,8 @@ function drawValues(points, values)
     context.stroke();
 }
 
-var fn = function (x, y) {
-    return Math.sin(x) * Math.cos(y);
-}
+var fncode = document.getElementById("fntext").value;
+var fn = new Function("x", "y", "return " + fncode);
 
 var population = fnxy.createPopulation(10000, fn, -10, 10, -10, 10);
 var mutators = [];
