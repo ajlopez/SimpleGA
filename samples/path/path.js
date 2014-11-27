@@ -83,7 +83,7 @@ var Path = (function () {
                 var from = path[k];
                 var to = path[k + 1];
                 
-                value += (from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y);
+                value += Math.sqrt((from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y));
                 
                 var stones = world.stones(from, to);
                 
