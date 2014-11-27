@@ -32,6 +32,8 @@ var Path = (function () {
         function movePoint(path, width, height) {
             var newpath = path.slice();
             var position = Math.floor(Math.random() * (path.length - 1)) + 1;
+            if (position == path.length - 1)
+                return newpath;
             var point = path[position];
             var dx = Math.floor(Math.random() * 5) - 2;
             var dy = Math.floor(Math.random() * 5) - 2;
@@ -65,7 +67,7 @@ var Path = (function () {
     
     function Genotype(world, path) {
         var evaluated = false;
-        var stonevalue = world.width() * world.width() + world.height() * world.height();
+        var stonevalue = Math.sqrt(world.width() * world.width() + world.height() * world.height());
         var value;
         var npoints = path.length;
         
@@ -83,7 +85,7 @@ var Path = (function () {
                 var from = path[k];
                 var to = path[k + 1];
                 
-                value += (from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y);
+                value += Math.sqrt((from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y));
                 
                 var stones = world.stones(from, to);
                 
