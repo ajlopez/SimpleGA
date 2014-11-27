@@ -3,11 +3,16 @@
 <title>Function Evaluation</title>
 <script src="../../lib/simplega.js" language="javascript"></script>
 <script src="./fnxy.js" language="javascript"></script>
+<link href="../bootstrap.min.css" rel="stylesheet">
+<link href="../bootstrap-theme.min.css" rel="stylesheet">
 </head>
 <body>
 <h1>Function Evaluation</h1>
 
-<input type="button" value="Relaunch" onclick="relaunch()">
+<div>
+<input type="text" id="fntext" value="Math.sin(x) * Math.cos(y)"/>
+<button onclick="relaunch()">Relaunch</button>
+</div>
 
 <canvas id="canvas" width="600" height="600">
 </canvas>
@@ -50,9 +55,8 @@ function drawValues(points, values)
     context.stroke();
 }
 
-var fn = function (x, y) {
-    return Math.sin(x) * Math.cos(y);
-}
+var fncode = document.getElementById("fntext").value;
+var fn = new Function("x", "y", "return " + fncode);
 
 var population = fnxy.createPopulation(10000, fn, -10, 10, -10, 10);
 var mutators = [];
@@ -80,6 +84,8 @@ function doStep() {
 }
 
 function relaunch() {
+    var fncode = document.getElementById("fntext").value;
+    var fn = new Function("x", "y", "return " + fncode);
     var newpopulation = fnxy.createPopulation(10000, fn, -10, 10, -10, 10);
     population = newpopulation;
 }
