@@ -7,7 +7,10 @@
 <body>
 <h1>Function Evaluation</h1>
 
-<input type="button" value="Relaunch" onclick="relaunch()">
+<div>
+<input type="text" id="fntext" value="Math.sin(x) * Math.cos(y)"/>
+<button onclick="relaunch()">Relaunch</button>
+</div>
 
 <canvas id="canvas" width="600" height="600">
 </canvas>
@@ -80,6 +83,8 @@ function doStep() {
 }
 
 function relaunch() {
+    var fncode = document.getElementById("fntext").value;
+    var fn = new Function("x", "y", "return " + fncode);
     var newpopulation = fnxy.createPopulation(10000, fn, -10, 10, -10, 10);
     population = newpopulation;
 }
