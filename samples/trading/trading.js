@@ -110,12 +110,19 @@ var Trading = (function () {
         options = options || { };
         
         var amount = 0;
+        var value = 0;
         
         this.amount = function (value) { if (value != null) amount = value; else return amount; }
         
-        this.evaluate = function () { return 0; }
+        this.init = function () { value = 0; }
+        
+        this.evaluate = function () { return value; }
         
         this.genes = createGenes();
+        
+        this.run = function (amount, values) {
+            value += amount;
+        };
     }
     
     function Mutator() {

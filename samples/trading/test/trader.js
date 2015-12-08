@@ -25,3 +25,14 @@ exports['set amount'] = function (test) {
     test.equal(trader.evaluate(), 0);
 }
 
+exports['initialize for evaluate'] = function (test) {
+    var trader = trading.trader();
+    
+    trader.init();
+    test.equal(trader.evaluate(), 0);
+}
+
+exports['run values with one up gene'] = function (test) {
+    var trader = trading.trader();
+}
+
