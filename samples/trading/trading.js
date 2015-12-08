@@ -109,7 +109,9 @@ var Trading = (function () {
     function Trader(options) {
         options = options || { };
         
-        this.amount = function () { return 0; }
+        var amount = 0;
+        
+        this.amount = function (value) { if (value != null) amount = value; else return amount; }
         
         this.evaluate = function () { return 0; }
     }

@@ -8,3 +8,11 @@ exports['create trader'] = function (test) {
     test.equal(trader.amount(), 0);
     test.equal(trader.evaluate(), 0);
 }
+
+exports['set amount'] = function (test) {
+    var trader = trading.trader();
+    
+    trader.amount(1000);
+    test.equal(trader.amount(), 1000);
+    test.equal(trader.evaluate(), 0);
+}
