@@ -16,13 +16,6 @@ exports['create trader with genes'] = function (test) {
     test.ok(trader.genes.length);
 }
 
-exports['initialize for evaluate'] = function (test) {
-    var trader = trading.trader();
-    
-    trader.init();
-    test.equal(trader.evaluate(), 0);
-}
-
 exports['run values with one up gene'] = function (test) {
     var trader = trading.trader();
     
@@ -62,4 +55,19 @@ exports['run values with one up gene and one down gene'] = function (test) {
     ];
     
     test.equal(trader.run(1000, [ 1, 2, 1, 2 ]), 990);
+}
+
+exports['evaluate with one up gene and one down gene and one series'] = function (test) {
+    var trader = trading.trader();
+    
+    trader.genes = [
+        { predicate: "up", days: 1, action: "buy", amount: 100 },
+        { predicate: "down", days: 1, action: "sell", amount: 10 }
+    ];
+    
+    trader.series = [
+        { amount: 1000, values: [ 1, 2, 1, 2 ] }
+    ];
+    
+    test.equal(trader.evaluate(), 990);
 }

@@ -109,11 +109,19 @@ var Trading = (function () {
     function Trader(options) {
         options = options || { };
         
-        var value = 0;
-        
-        this.init = function () { value = 0; }
-        
-        this.evaluate = function () { return value; }
+        this.evaluate = function () { 
+            if (!this.series)
+                return 0;
+                
+            var value = 0;
+            var self = this;
+            
+            this.series.forEach(function (serie) {
+                value += self.run(serie.amount, serie.values);
+            });
+            
+            return value; 
+        }
         
         this.genes = createGenes();
         
