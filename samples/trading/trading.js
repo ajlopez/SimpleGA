@@ -97,7 +97,7 @@ var Trading = (function () {
         return newgenes;
     }
     
-    function alterGen(genes) {
+    function alterGenes(genes) {
         var pos = Math.floor(Math.random() * genes.length);
         var newgenes = genes.slice();
         
@@ -108,23 +108,20 @@ var Trading = (function () {
     
     function Trader(options) {
         options = options || { };
-                
-        this.energy = function (value) { if (value != null) energy = value; return energy; }
         
-        this.clone = function () {
-            var newanimal = new Animal(options);
-            newanimal.world(world);
-            newanimal.genes = this.genes;
-            newanimal.run = this.run;
-            return newanimal;
-        }
+        this.amount = function () { return 0; }
         
-        this.evaluate = function () { return energy; }        
+        this.evaluate = function () { return 0; }
     }
     
     function Mutator() {
         this.mutate = function (trader) {
             var newtrader = trader.clone();
+            
+            if (Math.random() < 0.2) {
+                newtrader.genes = alterGenes(newtrader.genes);
+                return newtrader;
+            }
             
             if (Math.random() < 0.2) {
                 newtrader.genes = insertGen(newtrader.genes);
@@ -141,11 +138,9 @@ var Trading = (function () {
     }
 
     return {
-        createWorld: function (width, height) { return new World(width, height); },
-        createAnimal: function (options) { return new Animal(options); },
-        createMutator: function () { return new Mutator(); },
-        createGenes: createGenes,
-        genesToFunction: genesToFunction
+        trader: function (options) { return new Trader(options); },
+        mutator: function () { return new Mutator(); },
+        createGenes: createGenes
     }
 })();
 
