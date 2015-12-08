@@ -127,7 +127,7 @@ var Trading = (function () {
                     if (applyGen(this.genes[j], values, k))
                         executeGen(this.genes[j], values[k], status)
                         
-            value += status.amount + status.quantity * values[nvalues - 1];
+            return status.amount + status.quantity * values[nvalues - 1];
         };
     }
     

@@ -30,9 +30,7 @@ exports['run values with one up gene'] = function (test) {
         { predicate: "up", days: 1, action: "buy", amount: 100 }
     ];
     
-    trader.run(1000, [ 1, 1, 1, 1, 1 ]);
-    
-    test.equal(trader.evaluate(), 1000);
+    test.equal(trader.run(1000, [ 1, 1, 1, 1, 1 ]), 1000);
 }
 
 exports['run values with one up gene and increased final value'] = function (test) {
@@ -42,9 +40,7 @@ exports['run values with one up gene and increased final value'] = function (tes
         { predicate: "up", days: 1, action: "buy", amount: 100 }
     ];
     
-    trader.run(1000, [ 1, 1, 1, 1, 1, 2 ]);
-    
-    test.ok(trader.evaluate() > 1000);
+    test.ok(trader.run(1000, [ 1, 1, 1, 1, 1, 2 ]) > 1000);
 }
 
 exports['run values with one up gene and decrease final value'] = function (test) {
@@ -54,9 +50,7 @@ exports['run values with one up gene and decrease final value'] = function (test
         { predicate: "up", days: 1, action: "buy", amount: 100 }
     ];
     
-    trader.run(1000, [ 1, 2, 1 ]);
-    
-    test.equal(trader.evaluate(), 950);
+    test.equal(trader.run(1000, [ 1, 2, 1 ]), 950);
 }
 
 exports['run values with one up gene and one down gene'] = function (test) {
@@ -67,7 +61,5 @@ exports['run values with one up gene and one down gene'] = function (test) {
         { predicate: "down", days: 1, action: "sell", amount: 10 }
     ];
     
-    trader.run(1000, [ 1, 2, 1, 2 ]);
-    
-    test.equal(trader.evaluate(), 990);
+    test.equal(trader.run(1000, [ 1, 2, 1, 2 ]), 990);
 }
