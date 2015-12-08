@@ -125,13 +125,49 @@ var Trading = (function () {
             for (var k = 0; k < nvalues; k++)
                 for (var j = 0; j < ngenes; j++)
                     if (applyGen(this.genes[j], values, k))
-                        executeGen(this.genes[j], status)
+                        executeGen(this.genes[j], values[k], status)
                         
-            value += amount;
+            value += status.amount + status.quantity * values[nvalues - 1];
         };
     }
     
+    function executeGen(gene, value, status) {
+        if (gene.action === 'buy') {
+            var amount = Math.min(gene.amount, status.amount);
+            status.quantity += amount / value;
+            status.amount -= amount;
+        }
+    }
+    
     function applyGen(gene, values, day) {
+        if (gene.days > 0) {
+            if (gene.predicate === 'up') {
+                for (var k = 0; k < gene.days; k++) {
+                    if (values[day - k] == null)
+                        return false;
+                    if (values[day - k - 1] == null)
+                        return false;
+                    if (values[day - k] < values[day - k - 1])
+                        return false;
+                }
+                
+                return true;
+            }
+
+            if (gene.predicate === 'down') {
+                for (var k = 0; k < gene.days; k++) {
+                    if (values[day - k] == null)
+                        return false;
+                    if (values[day - k - 1] == null)
+                        return false;
+                    if (values[day - k] > values[day - k - 1])
+                        return false;
+                }
+                
+                return true;
+            }
+        }
+            
         return false;
     }
     
