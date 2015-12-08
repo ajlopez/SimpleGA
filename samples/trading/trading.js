@@ -137,6 +137,15 @@ var Trading = (function () {
                         
             return status.amount + status.quantity * values[nvalues - 1];
         };
+        
+        this.clone = function () {
+            var newtrader = new Trader(options);
+            
+            newtrader.genes = this.genes.slice();
+            newtrader.series = this.series;
+            
+            return newtrader;
+        }
     }
     
     function executeGen(gene, value, status) {

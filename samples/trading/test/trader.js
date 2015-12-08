@@ -71,3 +71,24 @@ exports['evaluate with one up gene and one down gene and one series'] = function
     
     test.equal(trader.evaluate(), 990);
 }
+
+exports['clone trader'] = function (test) {
+    var trader = trading.trader();
+    
+    trader.genes = [
+        { predicate: "up", days: 1, action: "buy", amount: 100 },
+        { predicate: "down", days: 1, action: "sell", amount: 10 }
+    ];
+    
+    trader.series = [
+        { amount: 1000, values: [ 1, 2, 1, 2 ] }
+    ];
+    
+    var clone = trader.clone();
+    
+    test.ok(clone);
+    test.deepEqual(clone.genes, trader.genes);
+    test.deepEqual(clone.series, trader.series);
+    test.ok(clone.genes !== trader.genes);
+    test.ok(clone.series === trader.series);
+}
