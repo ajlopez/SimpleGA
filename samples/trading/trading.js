@@ -136,6 +136,18 @@ var Trading = (function () {
             var amount = Math.min(gene.amount, status.amount);
             status.quantity += amount / value;
             status.amount -= amount;
+            console.log('buy', amount / value, value, amount);
+            console.log('status', status);
+            return;
+        }
+
+        if (gene.action === 'sell') {
+            var quantity = Math.min(gene.amount / value, status.quantity);
+            status.quantity -= quantity;
+            status.amount += quantity * value;
+            console.log('sell', quantity, value, quantity * value);
+            console.log('status', status);
+            return;
         }
     }
     

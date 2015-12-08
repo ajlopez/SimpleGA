@@ -47,7 +47,6 @@ exports['run values with one up gene and increased final value'] = function (tes
     test.ok(trader.evaluate() > 1000);
 }
 
-
 exports['run values with one up gene and decrease final value'] = function (test) {
     var trader = trading.trader();
     
@@ -57,5 +56,18 @@ exports['run values with one up gene and decrease final value'] = function (test
     
     trader.run(1000, [ 1, 2, 1 ]);
     
-    test.ok(trader.evaluate() < 1000);
+    test.equal(trader.evaluate(), 950);
+}
+
+exports['run values with one up gene and one down gene'] = function (test) {
+    var trader = trading.trader();
+    
+    trader.genes = [
+        { predicate: "up", days: 1, action: "buy", amount: 100 },
+        { predicate: "down", days: 1, action: "sell", amount: 10 }
+    ];
+    
+    trader.run(1000, [ 1, 2, 1, 2 ]);
+    
+    test.equal(trader.evaluate(), 990);
 }
