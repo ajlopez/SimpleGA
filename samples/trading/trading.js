@@ -222,11 +222,23 @@ var Trading = (function () {
             return trader;
         }
     }
+    
+    function createPopulation(size, series) {
+        var traders = [];
+        
+        for (var k = 0; k < size; k++) {
+            var trader = new Trader();
+            trader.series = series;
+            traders.push(trader);
+        }
+        
+        return traders;
+    }
 
     return {
         trader: function (options) { return new Trader(options); },
         mutator: function () { return new Mutator(); },
-        createGenes: createGenes
+        population: createPopulation
     }
 })();
 
