@@ -9,6 +9,14 @@ exports['create trader'] = function (test) {
     test.equal(trader.evaluate(), 0);
 }
 
+exports['create trader with genes'] = function (test) {
+    var trader = trading.trader();
+    
+    test.ok(trader.genes);
+    test.ok(Array.isArray(trader.genes));
+    test.ok(trader.genes.length);
+}
+
 exports['set amount'] = function (test) {
     var trader = trading.trader();
     
@@ -16,3 +24,4 @@ exports['set amount'] = function (test) {
     test.equal(trader.amount(), 1000);
     test.equal(trader.evaluate(), 0);
 }
+

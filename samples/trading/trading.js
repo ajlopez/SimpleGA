@@ -114,6 +114,8 @@ var Trading = (function () {
         this.amount = function (value) { if (value != null) amount = value; else return amount; }
         
         this.evaluate = function () { return 0; }
+        
+        this.genes = createGenes();
     }
     
     function Mutator() {
