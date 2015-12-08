@@ -118,8 +118,21 @@ var Trading = (function () {
         this.genes = createGenes();
         
         this.run = function (amount, values) {
+            var nvalues = values.length;
+            var ngenes = this.genes.length;
+            var status = { amount: amount, quantity: 0 };
+            
+            for (var k = 0; k < nvalues; k++)
+                for (var j = 0; j < ngenes; j++)
+                    if (applyGen(this.genes[j], values, k))
+                        executeGen(this.genes[j], status)
+                        
             value += amount;
         };
+    }
+    
+    function applyGen(gene, values, day) {
+        return false;
     }
     
     function Mutator() {
