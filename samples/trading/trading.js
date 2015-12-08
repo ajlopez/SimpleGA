@@ -11,6 +11,10 @@ var Trading = (function () {
         return Math.floor(mean + Math.random() * mean - mean / 2);
     }
     
+    function alterint(value) {
+        return value + Math.floor(Math.random() * value) - Math.floor(value / 2);
+    }
+    
     function clone(obj) {
         var newobj = {};
         
@@ -29,6 +33,13 @@ var Trading = (function () {
         };
     }
     
+    var mutators = [
+        alterGenPredicate,
+        alterGenDays,
+        alterGenAction,
+        alterGenAmount
+    ];
+    
     function alterGenPredicate(gen) {
         var newgen = clone(gen);
         newgen.predicate = choose(predicates);
@@ -43,7 +54,7 @@ var Trading = (function () {
     
     function alterGenAction(gen) {
         var newgen = clone(gen);
-        newgen.action = choose(action);
+        newgen.action = choose(actions);
         return newgen;
     }
 
@@ -66,7 +77,7 @@ var Trading = (function () {
     
     function eraseGen(genes) {
         if (genes.length <= 1)
-            return;
+            return genes;
             
         var pos = Math.floor(Math.random() * genes.length);
         
@@ -81,7 +92,7 @@ var Trading = (function () {
     
     function insertGen(genes) {
         if (genes.length >= 10)
-            return;
+            return genes;
             
         var pos = Math.floor(Math.random() * genes.length);
         
@@ -153,8 +164,6 @@ var Trading = (function () {
             var amount = Math.min(gene.amount, status.amount);
             status.quantity += amount / value;
             status.amount -= amount;
-            console.log('buy', amount / value, value, amount);
-            console.log('status', status);
             return;
         }
 
@@ -162,8 +171,6 @@ var Trading = (function () {
             var quantity = Math.min(gene.amount / value, status.quantity);
             status.quantity -= quantity;
             status.amount += quantity * value;
-            console.log('sell', quantity, value, quantity * value);
-            console.log('status', status);
             return;
         }
     }
