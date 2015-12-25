@@ -48,12 +48,23 @@ function runGenerations(popsize, series, ngenerations) {
 }
 
 var series = [];
+var testseries = [];
+
+var intestseries = false;
 
 for (var n = 2; n < process.argv.length; n++) {
+    if (process.argv[n] === '--') {
+        intestseries = true;
+        continue;
+    }
+    
     var values = loadValues(process.argv[n]);
     
     if (values && values.length > 10)
-        series.push({ amount: 1000, values: values });         
+        if (intestseries)
+            testseries.push({ amount: 1000, values: values });         
+        else
+            series.push({ amount: 1000, values: values });         
 }
 
 var population = runGenerations(1000, series, 100);
@@ -64,4 +75,6 @@ console.log('best trader');
 console.dir(best);
 console.log('best value', best.evaluate());
 
+best.series = testseries;
+console.log('test value', best.evaluate());
     
