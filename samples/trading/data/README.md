@@ -1,0 +1,1 @@
+# Trading DataTaken fromhttp://www.bloomberg.com/features/2015-stock-chart-trading-game/Each data file was downloaded from:```http://www.bloomberg.com/features/2015-stock-chart-trading-game/data/prices/<name>.csv```
