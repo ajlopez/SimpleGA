@@ -1,7 +1,7 @@
 var simplega = require('../../'),
     min = require('./min');
 
-var population = min.createPopulation(50000);
+var population = min.createPopulation(100000);
 
 var engine = new simplega.Engine();
 

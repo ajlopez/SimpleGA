@@ -3,10 +3,10 @@ var min = (function() {
 		var rnd = Math.random() * 30;
 		
 		if (rnd < 10)
-			return value / 1.1;
+			return value / (1 + 0.1 * rnd / 10);
 			
 		if (rnd < 20)
-			return value * 1.1;
+			return value * (1 + 0.1 * (rnd - 10) / 10);
 			
 		return value;
 	}
