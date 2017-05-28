@@ -6,7 +6,7 @@ var population = min.createPopulation(100000);
 var engine = new simplega.Engine();
 
 engine.setPopulation(population);
-engine.setMutators([new min.Mutator()]);
+engine.setMutators([new min.Mutator(), { mutate: function(genotype) { return genotype; }}]);
 
 var thebest;
 var thebestvalue;

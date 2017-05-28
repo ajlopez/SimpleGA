@@ -1,6 +1,6 @@
 var min = (function() {
 	function mutate(value) {
-		var rnd = Math.random() * 30;
+		var rnd = Math.random() * 100;
 		
 		if (rnd < 10)
 			return value / (1 + 0.1 * rnd / 10);
