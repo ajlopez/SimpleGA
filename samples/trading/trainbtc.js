@@ -7,11 +7,12 @@ var trading = require('./trading');
 
 function loadValues(year) {
 	var values = [];
+	var l = year.length;
 	
 	var data = require('./btcdata/bitcoin.json');
 
 	for (var k in data.bpi) {
-		if (k.substring(0,4) != year)
+		if (k.substring(0,l) != year)
 			continue;
 		
 		values.push(data.bpi[k]);
