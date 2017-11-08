@@ -16,8 +16,6 @@ function loadValues(year) {
 			continue;
 		
 		values.push(data.bpi[k]);
-		if (values.length >= 100)
-			return values;
 	}
 	
 	return values;
@@ -58,7 +56,7 @@ for (var n = 2; n < process.argv.length; n++) {
             series.push({ amount: 1000, values: values });         
 }
 
-var population = runGenerations(1000, series, 200);
+var population = runGenerations(1000, series, 400);
 
 var best = simplega.getBestGenotype(population);
     
