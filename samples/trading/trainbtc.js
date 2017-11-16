@@ -41,20 +41,26 @@ var testseries = [];
 
 var intestseries = false;
 
+values = [];
+testvalues = [];
+
 for (var n = 2; n < process.argv.length; n++) {
     if (process.argv[n] === '--') {
         intestseries = true;
         continue;
     }
     
-    var values = loadValues(process.argv[n]);
+    var newvalues = loadValues(process.argv[n]);
     
-    if (values && values.length > 10)
+    if (newvalues && newvalues.length > 10)
         if (intestseries)
-            testseries.push({ amount: 1000, values: values });         
+            testvalues = testvalues.concat(newvalues);         
         else
-            series.push({ amount: 1000, values: values });         
+            values = values.concat(newvalues);
 }
+
+testseries.push({ amount: 1000, values: testvalues });         
+series.push({ amount: 1000, values: values });         
 
 var population = runGenerations(1000, series, 400);
 
