@@ -62,7 +62,7 @@ for (var n = 2; n < process.argv.length; n++) {
 testseries.push({ amount: 1000, values: testvalues });         
 series.push({ amount: 1000, values: values });         
 
-var population = runGenerations(1000, series, 2000);
+var population = runGenerations(2000, series, 2000);
 
 var best = simplega.getBestGenotype(population);
     
