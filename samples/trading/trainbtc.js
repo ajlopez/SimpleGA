@@ -52,7 +52,7 @@ for (var n = 2; n < process.argv.length; n++) {
     
     var newvalues = loadValues(process.argv[n]);
     
-    if (newvalues && newvalues.length > 10)
+    if (newvalues)
         if (intestseries)
             testvalues = testvalues.concat(newvalues);         
         else
@@ -62,14 +62,22 @@ for (var n = 2; n < process.argv.length; n++) {
 testseries.push({ amount: 1000, values: testvalues });         
 series.push({ amount: 1000, values: values });         
 
-var population = runGenerations(2000, series, 2000);
+var population = runGenerations(500, series, 500);
 
 var best = simplega.getBestGenotype(population);
     
 console.log('best trader');
 console.dir(best);
 console.log('best value', best.evaluate());
+console.log('training market value', calculateMarketValue(series[0]));
+console.log('training series length', best.series[0].values.length, series[0].values.length);
 
 best.series = testseries;
 console.log('test value', best.evaluate());
+console.log('test market value', calculateMarketValue(testseries[0]));
+console.log('test series length', testseries[0].values.length);
     
+function calculateMarketValue(serie) {
+	return serie.amount * serie.values[serie.values.length - 1] / serie.values[0];
+}
+
