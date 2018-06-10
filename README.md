@@ -50,7 +50,10 @@ npm test
 
 ## Books
 
-- Genetic Algorithm Essentials, Kramer (Spring, 2017)
+- Genetic Algorithm Essentials - Oliver Kramer (2017, Springer)
+- Genetic Algorithms + Data Structures = Evolution Programs, Zbigniew Michalewicz (1998, Springer)
+- Representations for Genetic and Evolutionary Algorithms - Franz Rothlauf (2006, Springer)
+- An Introduction to Genetic Algorithms - Melanie Mitchell (1998, Springer-Verlag)
 
 ## To do
 
