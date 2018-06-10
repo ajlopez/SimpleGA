@@ -48,6 +48,10 @@ npm test
 - [Genetic Algorithms in Plain English](http://www.ai-junkie.com/ga/intro/gat1.html)
 - [http://reference.kfupm.edu.sa/content/g/e/a_genetic_algorithm_tutorial_80073.pdf](http://reference.kfupm.edu.sa/content/g/e/a_genetic_algorithm_tutorial_80073.pdf)
 
+## Books
+
+- Genetic Algorithm Essentials, Kramer (Spring, 2017)
+
 ## To do
 
 - Samples
