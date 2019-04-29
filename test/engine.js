@@ -1,8 +1,8 @@
 
-var simplega = require('../'),
-    assert = require('assert');
+const simplega = require('../');
+const assert = require('assert');
 
-var engine = new simplega.Engine();
+const engine = new simplega.Engine();
 
 assert.ok(engine);
 
@@ -55,7 +55,7 @@ assert.ok(getMaxValue(result) >= 1);
 
 function generateGenotypes(n, value)
 {
-    var genotypes = [];
+    const genotypes = [];
     
     for (var k = 0; k < n; k++)
         genotypes.push(new SimpleGenotype(value));
@@ -76,18 +76,20 @@ function SimpleMutator()
 }
 
 function getMaxValue(population) {
-    var l = population.length;
+    const l = population.length;
     
     if (l == 0)
         return 0;
         
-    var max = population[0].evaluate();
+    let max = population[0].evaluate();
     
-    for (k = 1; k < l; k++) {
-        var value = population[k].evaluate();
+    for (let k = 1; k < l; k++) {
+        const value = population[k].evaluate();
+        
         if (value > max)
             max = value;
     }
     
     return max;
 }
+
