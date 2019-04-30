@@ -2,8 +2,6 @@
 
 Simple Genetic Algorithm base framework, supporting population, evaluation, mutators, crossover and next generation.
 
-Reference
-http://reference.kfupm.edu.sa/content/g/e/a_genetic_algorithm_tutorial_80073.pdf
 
 ## Installation
 
