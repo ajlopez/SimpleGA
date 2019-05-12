@@ -57,11 +57,11 @@ var maxlength = 5 * 4 * (5*5 + 4*4);
 
 drawPoints();
 
-var engine = new simplega.Engine();
+var engine = simplega.engine();
 
 var population = tsp.createPopulation(10000, points, maxlength);
 
-engine.setMutators([new tsp.Mutator()]);
+engine.mutators([new tsp.Mutator()]);
 
 var bestvalue = 0;
 var bestpath;
@@ -69,8 +69,9 @@ var bestpath;
 setTimeout(doStep, 10);
 
 function doStep() {
-    engine.setPopulation(population);
-    population = engine.nextPopulation();
+    engine.population(population);
+    engine.evolve();
+    population = engine.population();
     var newbestvalue = simplega.getBestValue(population);
     
     if (newbestvalue >= bestvalue) {
@@ -87,7 +88,7 @@ function doStep() {
 }
 
 function relaunch() {
-    var newpopulation = tsp.createPopulation(5000, points, maxlength);
+    var newpopulation = tsp.createPopulation(10000, points, maxlength);
         
     bestvalue = 0;
     population = newpopulation;

@@ -134,7 +134,8 @@ function newgenotype() {
 }
 
 function runGeneration() {
-    var newgenotypes = engine.nextPopulation();
+    engine.evolve();
+    var newgenotypes = engine.population();
     best = simplega.getBestGenotype(newgenotypes, { minimize: true });
     drawWorld(world);
     drawPath(best.path());
@@ -161,9 +162,9 @@ function runga() {
     for (var k = 0; k < 4; k++)
         mutators.push(Path.createMutator());
 
-    engine = new simplega.Engine({ minimize: true });
-    engine.setPopulation(genotypes);
-    engine.setMutators(mutators);
+    engine = simplega.engine({ minimize: true });
+    engine.population(genotypes);
+    engine.mutators(mutators);
     running = true;
     
     runGeneration();

@@ -1,57 +1,5 @@
 
-const simplega = require('../');
-const assert = require('assert');
-
-const engine = new simplega.Engine();
-
-assert.ok(engine);
-
-var population = generateGenotypes(10, 1);
-
-engine.setPopulation(population);
-
-var result = engine.nextPopulation();
-
-assert.ok(result);
-assert.ok(Array.isArray(result));
-assert.equal(10, result.length);
-
-population = [];
-population.push(new SimpleGenotype(1));
-population.push(new SimpleGenotype(2));
-
-engine.setPopulation(population);
-
-var result = engine.nextPopulation();
-
-assert.ok(result);
-assert.ok(Array.isArray(result));
-assert.ok(result.length >= 1);
-
-var mutator = new SimpleMutator();
-
-var mutators = [ mutator, mutator, mutator ];
-
-engine.setMutators(mutators);
-
-result = engine.nextPopulation();
-
-assert.ok(result);
-assert.ok(Array.isArray(result));
-assert.ok(result.length >= 1);
-
-engine.setPopulation(generateGenotypes(10, 1));
-
-for (var k = 1; k <= 10; k++)
-{
-    result = engine.nextPopulation();
-    engine.setPopulation(result);
-}
-
-assert.ok(result);
-assert.ok(Array.isArray(result));
-assert.ok(result.length >= 1);
-assert.ok(getMaxValue(result) >= 1);
+const simplega = require('..');
 
 function generateGenotypes(n, value)
 {
@@ -75,21 +23,59 @@ function SimpleMutator()
     }
 }
 
-function getMaxValue(population) {
-    const l = population.length;
+exports['create engine'] = function (test) {
+    const engine = simplega.engine();
     
-    if (l == 0)
-        return 0;
-        
-    let max = population[0].evaluate();
+    test.ok(engine);
+    test.equal(typeof engine, 'object');
+};
+
+exports['get empty population'] = function (test) {
+    const engine = simplega.engine();
+    const population = engine.population();
     
-    for (let k = 1; k < l; k++) {
-        const value = population[k].evaluate();
-        
-        if (value > max)
-            max = value;
-    }
+    test.ok(population);
+    test.ok(Array.isArray(population));
+    test.equal(population.length, 0);
+};
+
+exports['set and get population'] = function (test) {
+    const engine = simplega.engine();
+    const population = generateGenotypes(10, 1);
+    engine.population(population);
     
-    return max;
-}
+    const result = engine.population();
+    
+    test.ok(result);
+    test.ok(Array.isArray(result));
+    test.equal(result.length, population.length);
+    test.deepEqual(result, population);
+};
+
+exports['evolve and get population'] = function (test) {
+    const engine = simplega.engine();
+    const population = generateGenotypes(10, 1);
+    engine.population(population);
+    engine.evolve();
+    
+    const result = engine.population();
+    
+    test.ok(result);
+    test.ok(Array.isArray(result));
+    test.ok(result.length);
+};
+
+exports['evolve and get population using mutators'] = function (test) {
+    const engine = simplega.engine();
+    const population = generateGenotypes(10, 1);
+    engine.population(population);
+    engine.mutators([ new SimpleMutator(), new SimpleMutator() ]);
+    engine.evolve();
+    
+    const result = engine.population();
+    
+    test.ok(result);
+    test.ok(Array.isArray(result));
+    test.ok(result.length);
+};
 
