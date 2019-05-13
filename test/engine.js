@@ -13,7 +13,8 @@ function generateGenotypes(n, value)
 
 function SimpleGenotype(value)
 {
-    this.evaluate = function() { return value; }
+    this.reset = function () { };
+    this.evaluate = function() { return value; };
 }
 
 function SimpleMutator()
