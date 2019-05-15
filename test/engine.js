@@ -53,6 +53,30 @@ exports['set and get population'] = function (test) {
     test.deepEqual(result, population);
 };
 
+exports['best individuals in population'] = function (test) {
+    const engine = simplega.engine();
+    const population = generateGenotypes(10, 1);
+    population.push(new SimpleGenotype(2));
+    const result = simplega.bests(population, 2);
+    
+    test.ok(result);
+    test.equal(result.length, 2);
+    test.equal(result[0].evaluate(), 2);
+    test.equal(result[1].evaluate(), 1);
+};
+
+exports['worse individuals in population'] = function (test) {
+    const engine = simplega.engine();
+    const population = generateGenotypes(10, 1);
+    population.push(new SimpleGenotype(0));
+    const result = simplega.bests(population, 2, true);
+    
+    test.ok(result);
+    test.equal(result.length, 2);
+    test.equal(result[0].evaluate(), 0);
+    test.equal(result[1].evaluate(), 1);
+};
+
 exports['evolve and get population'] = function (test) {
     const engine = simplega.engine();
     const population = generateGenotypes(10, 1);
