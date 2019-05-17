@@ -13,7 +13,7 @@ function generateGenotypes(n, value)
 
 function SimpleGenotype(value)
 {
-    this.reset = function () { };
+    this.value = function () { return value; };
     this.evaluate = function() { return value; };
 }
 
