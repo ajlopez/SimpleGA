@@ -136,10 +136,10 @@ function newgenotype() {
 function runGeneration() {
     engine.evolve();
     var newgenotypes = engine.population();
-    best = simplega.getBestGenotype(newgenotypes, { minimize: true });
+    best = simplega.bests(newgenotypes, 1, true )[0];
     drawWorld(world);
     drawPath(best.path());
-    var value = best.evaluate();
+    var value = best.value();
     document.getElementById("genvalue").innerHTML = value;    
     
     if (!bestgenotype || bestvalue > value) {
