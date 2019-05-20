@@ -20,7 +20,7 @@ function SimpleGenotype(value)
 function SimpleMutator()
 {
     this.mutate = function(genotype) {
-        return new SimpleGenotype(genotype.evaluate() + Math.random() - 0.5);
+        return new SimpleGenotype(genotype.value() + Math.random() - 0.5);
     }
 }
 
