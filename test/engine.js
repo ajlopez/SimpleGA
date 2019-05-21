@@ -21,7 +21,13 @@ function SimpleMutator()
 {
     this.mutate = function(genotype) {
         return new SimpleGenotype(genotype.value() + Math.random() - 0.5);
-    }
+    };
+}
+
+function SimpleCrossover() {
+    this.crossover = function (genotype1, genotype2) {
+        return new SimpleGenotype((genotype1.value() + genotype2.value()) / 2);
+    };
 }
 
 exports['create engine'] = function (test) {
@@ -102,5 +108,26 @@ exports['evolve and get population using mutators'] = function (test) {
     test.ok(result);
     test.ok(Array.isArray(result));
     test.ok(result.length);
+};
+
+exports['evolve and get population using crossovers'] = function (test) {
+    const engine = simplega.engine();
+    const population = generateGenotypes(10, 1);
+    population.push(new SimpleGenotype(10));
+    engine.population(population);
+    engine.crossovers([ new SimpleCrossover(), new SimpleCrossover() ]);
+    engine.evolve();
+    
+    const result = engine.population();
+    
+    test.ok(result);
+    test.ok(Array.isArray(result));
+    test.ok(result.length);
+    
+    const bests = simplega.bests(result, 1);
+    
+    test.ok(bests);
+    test.equal(bests.length, 1);
+    test.equal(bests[0].value(), 10);
 };
 
