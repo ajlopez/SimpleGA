@@ -13,7 +13,9 @@ exports['create genotype with length'] = function (test) {
     test.ok(Array.isArray(genes));
     test.equal(genes.length, 10);
     
-    for (let k = 0; k < genes.length; k++)
-        test.ok(genes[k].value() >= 0 && genes[k].value() < 32);
+    for (let k = 0; k < genes.length; k++) {
+        const gene = genes[k];
+        test.ok(gene.value() >= 0 && gene.value() < 32);
+    }
 };
 
