@@ -1,8 +1,22 @@
 
+const letters = [];
+
+for (let k = 0; k < 26; k++)
+    letters[k] = String.fromCharCode(65 + k);
+
+letters[26] = ' ';
+letters[27] = ',';
+letters[28] = '.';
+letters[29] = '!';
+letters[30] = '?';
+letters[31] = ';';
+
 function Gene() {
     const value = Math.floor(Math.random() * 32);
     
     this.value = function () { return value; };
+    
+    this.toString = function () { return letters[value]; };
 }
 
 function createGene() {

@@ -16,6 +16,10 @@ exports['create genotype with length'] = function (test) {
     for (let k = 0; k < genes.length; k++) {
         const gene = genes[k];
         test.ok(gene.value() >= 0 && gene.value() < 32);
+        const letter = gene.toString();
+        test.ok(letter);
+        test.equal(letter.length, 1);
+        test.ok(letter >= 'A' && letter <= 'Z' || ' ,.!?;'.indexOf(letter) >= 0);
     }
 };
 
