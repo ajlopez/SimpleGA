@@ -23,3 +23,18 @@ exports['create genotype with length'] = function (test) {
     }
 };
 
+exports['genotype to string'] = function (test) {
+    const genotype = phrases.genotype(50);
+    
+    const result = genotype.toString();
+    
+    test.ok(result);
+    test.equal(typeof result, 'string');
+    test.equal(result.length, 50);
+    
+    for (let k = 0; k < result.length; k++) {
+        const letter = result[k];
+        test.ok(letter >= 'A' && letter <= 'Z' || ' ,.!?;'.indexOf(letter) >= 0);
+    }
+};
+

@@ -30,6 +30,15 @@ function Genotype(length) {
         genes.push(createGene());
     
     this.genes = function () { return genes; };
+    
+    this.toString = function () {
+        let result = '';
+        
+        for (let k = 0, l = genes.length; k < l; k++)
+            result = result + genes[k].toString();
+        
+        return result;
+    };
 }
 
 function createGenotype(length) {
