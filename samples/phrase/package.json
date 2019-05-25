@@ -1,0 +1,19 @@
+{
+  "name": "phrase",
+  "private": true,
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "simpleunit test -r"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "simpleunit": "0.0.8"
+  }
+}
