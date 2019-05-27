@@ -11,16 +11,13 @@ letters[29] = '!';
 letters[30] = '?';
 letters[31] = ';';
 
-function Gene() {
-    const value = Math.floor(Math.random() * 32);
+function Gene(value) {
+    if (value == null)
+        value = Math.floor(Math.random() * 32);
     
     this.value = function () { return value; };
     
     this.toString = function () { return letters[value]; };
-}
-
-function createGene() {
-    return new Gene();
 }
 
 function Genotype(length) {
@@ -45,7 +42,12 @@ function createGenotype(length) {
     return new Genotype(length);
 }
 
+function createGene(value) {
+    return new Gene(value);
+}
+
 module.exports = {
-    genotype: createGenotype
+    genotype: createGenotype,
+    gene: createGene
 }
 
