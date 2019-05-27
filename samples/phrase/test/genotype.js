@@ -27,6 +27,15 @@ exports['create genotype with phrase'] = function (test) {
     const genotype = phrases.genotype('HELLO, WORLD!');
     
     test.equal(genotype.toString(), 'HELLO, WORLD!');
+    test.equal(genotype.evaluate(phrases.values('HELLO, WORLD!')), 'HELLO, WORLD!'.length * 8);
+};
+
+exports['genotype evaluate againts phrase'] = function (test) {
+    const text = 'HELLO, WORLD!';
+    const genotype = phrases.genotype('HDLLO, WORLD!');
+    
+    test.equal(genotype.toString(), 'HDLLO, WORLD!');
+    test.equal(genotype.evaluate(phrases.values(text)), text.length * 8 - 3);
 };
 
 exports['genotype to string'] = function (test) {

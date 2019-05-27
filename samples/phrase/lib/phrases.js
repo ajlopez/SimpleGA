@@ -36,6 +36,7 @@ function Gene(value) {
 }
 
 function Genotype(data) {
+    let value;
     const genes = [];
     
     if (typeof data === 'string')
@@ -55,6 +56,17 @@ function Genotype(data) {
         
         return result;
     };
+    
+    this.value = function () { return value; };
+    
+    this.evaluate = function (values) {
+        value = 0;
+        
+        for (let k = 0, l = genes.length; k < l; k++)
+            value += 8 - genes[k].distance(values[k]);
+        
+        return value;
+    }
 }
 
 function createGenotype(length) {
@@ -65,8 +77,18 @@ function createGene(value) {
     return new Gene(value);
 }
 
+function textToValues(text) {
+    const values = [];
+    
+    for (let k = 0, l = text.length; k < l; k++)
+        values[k] = allletters.indexOf(text[k]);
+    
+    return values;
+}
+
 module.exports = {
     genotype: createGenotype,
-    gene: createGene
+    gene: createGene,
+    values: textToValues
 }
 
