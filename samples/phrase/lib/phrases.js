@@ -17,6 +17,17 @@ function Gene(value) {
     
     this.value = function () { return value; };
     
+    this.distance = function (val) {
+        const r = val ^ value;
+        let d = 0;
+        
+        for (let k = 1; k <= 128; k <<= 1)
+            if (r & k)
+                d++;
+            
+        return d;
+    }
+    
     this.toString = function () { return letters[value]; };
 }
 
