@@ -23,6 +23,12 @@ exports['create genotype with length'] = function (test) {
     }
 };
 
+exports['create genotype with phrase'] = function (test) {
+    const genotype = phrases.genotype('HELLO, WORLD!');
+    
+    test.equal(genotype.toString(), 'HELLO, WORLD!');
+};
+
 exports['genotype to string'] = function (test) {
     const genotype = phrases.genotype(50);
     

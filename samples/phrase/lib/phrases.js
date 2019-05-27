@@ -11,9 +11,13 @@ letters[29] = '!';
 letters[30] = '?';
 letters[31] = ';';
 
+const allletters = letters.join('');
+
 function Gene(value) {
     if (value == null)
         value = Math.floor(Math.random() * 32);
+    else if (typeof value === 'string')
+        value = allletters.indexOf(value[0]);
     
     this.value = function () { return value; };
     
@@ -31,11 +35,15 @@ function Gene(value) {
     this.toString = function () { return letters[value]; };
 }
 
-function Genotype(length) {
+function Genotype(data) {
     const genes = [];
     
-    for (let k = 0; k < length; k++)
-        genes.push(createGene());
+    if (typeof data === 'string')
+        for (let k = 0; k < data.length; k++)
+            genes.push(createGene(data[k]));
+    else
+        for (let k = 0; k < data; k++)
+            genes.push(createGene());
     
     this.genes = function () { return genes; };
     
