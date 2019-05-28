@@ -63,8 +63,9 @@ var population = tsp.createPopulation(10000, points, maxlength);
 
 engine.mutators([new tsp.Mutator()]);
 
-var bestvalue = 0;
-var bestpath;
+let best;
+let bestvalue = 0;
+let bestpath;
 
 setTimeout(doStep, 10);
 
@@ -72,16 +73,15 @@ function doStep() {
     engine.population(population);
     engine.evolve();
     population = engine.population();
-    var newbestvalue = simplega.getBestValue(population);
+    const newbest = simplega.bests(population, 1)[0];
+    const newbestvalue = newbest.value();
     
     if (newbestvalue >= bestvalue) {
         bestvalue = newbestvalue;
+        best = newbest;
         var l = population.length;
-        for (var k = 0; k < l; k++)
-            if (population[k].evaluate() == newbestvalue) {
-                drawPoints();
-                drawValues(points, population[k].getValues());
-            }
+        drawPoints();
+        drawValues(points, best.getValues());
     }
     
     setTimeout(doStep, 10);

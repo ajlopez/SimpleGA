@@ -71,6 +71,8 @@ var tsp = (function() {
             return value;
         }
         
+        this.value = function () { return value; };
+        
         this.getValues = function() { return values; }
         
         this.clone = function(newvalues) {
