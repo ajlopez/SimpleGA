@@ -13,6 +13,20 @@ letters[31] = ';';
 
 const allletters = letters.join('');
 
+function Mutator() {
+    this.mutate = function (genotype) {
+        const genes = genotype.genes().slice();
+        const ng = Math.floor(Math.random() * genes.length);
+        const nb = Math.floor(Math.random() * 8);
+        
+        const gene = genes[ng];
+        const newgene = new Gene(gene.value() ^ (1 << nb));
+        genes[ng] = newgene;
+        
+        return new Genotype(genes);
+    };
+}
+
 function Gene(value) {
     if (value == null)
         value = Math.floor(Math.random() * 32);
@@ -37,11 +51,13 @@ function Gene(value) {
 
 function Genotype(data) {
     let value;
-    const genes = [];
+    let genes = [];
     
     if (typeof data === 'string')
         for (let k = 0; k < data.length; k++)
             genes.push(createGene(data[k]));
+    else if (Array.isArray(data))
+        genes = data;
     else
         for (let k = 0; k < data; k++)
             genes.push(createGene());
@@ -86,9 +102,14 @@ function textToValues(text) {
     return values;
 }
 
+function createMutator() {
+    return new Mutator();
+}
+
 module.exports = {
     genotype: createGenotype,
     gene: createGene,
+    mutator: createMutator,
     values: textToValues
 }
 
