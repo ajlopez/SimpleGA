@@ -17,7 +17,7 @@ function Mutator() {
     this.mutate = function (genotype) {
         const genes = genotype.genes().slice();
         const ng = Math.floor(Math.random() * genes.length);
-        const nb = Math.floor(Math.random() * 8);
+        const nb = Math.floor(Math.random() * 5);
         
         const gene = genes[ng];
         const newgene = new Gene(gene.value() ^ (1 << nb));
