@@ -22,18 +22,16 @@ function loadValues(year) {
 }
 
 function runGenerations(popsize, series, ngenerations) {
-    var population = trading.population(popsize, series);
+    var population = trading.population(popsize);
     var mutators = [ trading.mutator() ];
-    var engine = new simplega.Engine();
-    engine.setPopulation(population);
-    engine.setMutators(mutators);
+    var engine = simplega.engine();
+    engine.population(population);
+    engine.mutators(mutators);
 
-    for (var k = 0; k < ngenerations; k++) {
-        var newpopulation = engine.nextPopulation();
-        engine.setPopulation(newpopulation);
-    }
+    for (var k = 0; k < ngenerations; k++)
+        engine.evolve(series);
     
-    return newpopulation;
+    return engine.population();
 }
 
 var series = [];
@@ -62,18 +60,17 @@ for (var n = 2; n < process.argv.length; n++) {
 testseries.push({ amount: 1000, values: testvalues });         
 series.push({ amount: 1000, values: values });         
 
-var population = runGenerations(500, series, 500);
+var population = runGenerations(500, series, 5000);
 
-var best = simplega.getBestGenotype(population);
+var best = simplega.bests(population, 1)[0];
     
 console.log('best trader');
 console.dir(best);
-console.log('best value', best.evaluate());
+console.log('best value', best.evaluate(series));
 console.log('training market value', calculateMarketValue(series[0]));
-console.log('training series length', best.series[0].values.length, series[0].values.length);
+console.log('training series length', series[0].values.length, series[0].values.length);
 
-best.series = testseries;
-console.log('test value', best.evaluate());
+console.log('test value', best.evaluate(testseries));
 console.log('test market value', calculateMarketValue(testseries[0]));
 console.log('test series length', testseries[0].values.length);
     

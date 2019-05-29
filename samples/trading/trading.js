@@ -118,16 +118,24 @@ var Trading = (function () {
     }
     
     function Trader(options) {
+        let value;
+        let lastseries;
+        
         options = options || { };
         
-        this.evaluate = function () { 
-            if (!this.series)
+        this.value = function () { return value; };
+        
+        this.evaluate = function (series) {
+            if (value != null && lastseries === series)
+                return value;
+            
+            if (!series)
                 return 0;
                 
-            var value = 0;
+            value = 0;
             var self = this;
             
-            this.series.forEach(function (serie) {
+            series.forEach(function (serie) {
                 value += self.run(serie.amount, serie.values);
             });
             
@@ -153,7 +161,6 @@ var Trading = (function () {
             var newtrader = new Trader(options);
             
             newtrader.genes = this.genes.slice();
-            newtrader.series = this.series;
             
             return newtrader;
         }
@@ -230,12 +237,11 @@ var Trading = (function () {
         }
     }
     
-    function createPopulation(size, series) {
+    function createPopulation(size) {
         var traders = [];
         
         for (var k = 0; k < size; k++) {
             var trader = new Trader();
-            trader.series = series;
             traders.push(trader);
         }
         
