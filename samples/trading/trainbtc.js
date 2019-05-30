@@ -28,8 +28,15 @@ function runGenerations(popsize, series, ngenerations) {
     engine.population(population);
     engine.mutators(mutators);
 
-    for (var k = 0; k < ngenerations; k++)
+    for (var k = 0; k < ngenerations; k++) {
         engine.evolve(series);
+        
+        if (k % 100 == 0) {
+            const newpopulation = engine.population();
+            const best = simplega.bests(newpopulation, 1)[0];
+            console.log(k, population.length, best.value());
+        }
+    }
     
     return engine.population();
 }
