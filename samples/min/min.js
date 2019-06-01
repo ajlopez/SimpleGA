@@ -13,6 +13,8 @@ var min = (function() {
 	
     function Genotype(values)
     {
+        let value;
+        
         this.evaluate = function() {
 			var vals = [
 				values[1] / values[0],
@@ -26,8 +28,11 @@ var min = (function() {
 			
 			var val = Math.max(vals[0], vals[1], vals[2], vals[3], vals[4], vals[5], vals[6]);
 			
-			return -val;
+            value = val;
+			return value;
         }
+        
+        this.value = function () { return value; };
         
         this.getValues = function() { return values; }
         
