@@ -127,6 +127,8 @@ var Evol = (function () {
         }
         
         this.evaluate = function () { return energy; }
+
+        this.value = function () { return energy; };
         
         this.eat = function () {
             var value = world.value(x, y);

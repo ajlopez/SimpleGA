@@ -4,7 +4,6 @@
 <script src="../../lib/simplega.js" language="javascript"></script>
 <script src="./evol.js" language="javascript"></script>
 <link href="../bootstrap.min.css" rel="stylesheet">
-<link href="../bootstrap-theme.min.css" rel="stylesheet">
 </head>
 <body>
 <h1>Evolutionary World</h1>
@@ -43,12 +42,13 @@ for (var k = 0; k < 10; k++)
     mutators.push(Evol.createMutator());
 
 function runGeneration() {
-    var engine = new simplega.Engine();
+    var engine = simplega.engine();
 
-    engine.setPopulation(animals);
-    engine.setMutators(mutators);
+    engine.population(animals);
+    engine.mutators(mutators);
     
-    var newanimals = engine.nextPopulation();
+    engine.evolve();
+    var newanimals = engine.population();
     animals = [];
     
     for (var k = 0; k < newanimals.length; k++) {
@@ -150,3 +150,4 @@ function refill() {
 </script>
 </body>
 </html>
+
