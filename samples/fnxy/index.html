@@ -4,7 +4,6 @@
 <script src="../../lib/simplega.js" language="javascript"></script>
 <script src="./fnxy.js" language="javascript"></script>
 <link href="../bootstrap.min.css" rel="stylesheet">
-<link href="../bootstrap-theme.min.css" rel="stylesheet">
 </head>
 <body>
 <h1>Function Evaluation</h1>
@@ -37,24 +36,6 @@ function drawPopulation(population)
     }
 }
 
-function drawValues(points, values)
-{
-    context.beginPath();
-    
-    var l = values.length;
-    var point = points[values[0]];
-    
-    context.moveTo(50 + 100 * point.x, 50 + 100 * point.y);
-    
-    for (var k = 1; k < l; k++) {
-        point = points[values[k]];
-        context.lineTo(50 + 100 * point.x, 50 + 100 * point.y);
-    }
-    
-    context.closePath();
-    context.stroke();
-}
-
 var fncode = document.getElementById("fntext").value;
 var fn = new Function("x", "y", "return " + fncode);
 
@@ -68,19 +49,20 @@ mutators.push(fnxy.createMutator(0.1, -10, 10, -10, 10));
 mutators.push(fnxy.createMutator(0.01, -10, 10, -10, 10));
 mutators.push(fnxy.createMutator(0.001, -10, 10, -10, 10));
 
-var engine = new simplega.Engine();
+var engine = simplega.engine();
 
-engine.setPopulation(population);
-engine.setMutators(mutators);
+engine.population(population);
+engine.mutators(mutators);
 
-setTimeout(doStep, 10);
+setTimeout(doStep, 0);
 
 function doStep() {
-    engine.setPopulation(population);
-    population = engine.nextPopulation();
+    engine.population(population);
+    engine.evolve();
+    population = engine.population();
     drawPopulation(population);
     
-    setTimeout(doStep, 10);
+    setTimeout(doStep, 100);
 }
 
 function relaunch() {
@@ -93,3 +75,4 @@ function relaunch() {
 </script>
 </body>
 </html>
+

@@ -1,9 +1,14 @@
 
 var fnxy = (function() {
     function Genotype(fn, x, y) {
+        let value;
+        
         this.evaluate = function () {
-            return fn(x,y);
+            value = fn(x,y);
+            return value;
         }
+        
+        this.value = function () { return value; };
         
         this.x = function () { return x; }
         this.y = function () { return y; }
