@@ -14,59 +14,71 @@
 <input type="button" value="Run Generation" onclick="runGeneration()">
 </div>
 
-<div>
-<canvas id="canvas" width="400" height="400">
+<div class="container">
+
+<div class="row">
+
+<div class="col">
+<canvas id="canvas" width="350" height="350">
 </canvas>
 </div>
+
+<div class="col">
 <pre id='bestcode'>
 </pre>
+</div>
+
+</div>
+
+</div>
 
 <script language="javascript">
-var canvas = document.getElementById("canvas");
-var context = canvas.getContext("2d");
+const canvas = document.getElementById("canvas");
+const context = canvas.getContext("2d");
 
-var width = 20;
-var height = 20;
-var sqwidth = 20;
-var sqheight = 20;
+const width = 20;
+const height = 20;
+const sqwidth = 20;
+const sqheight = 20;
 
-var world;
-var animals;
+let world = createWorld();
+let animals = createAnimals();
 
-createWorld();
-createAnimals();
-
-var mutators = [];
+const mutators = [];
 
 for (var k = 0; k < 10; k++)
     mutators.push(Evol.createMutator());
 
-function runGeneration() {
-    var engine = simplega.engine();
+let engine = simplega.engine();
 
-    engine.population(animals);
-    engine.mutators(mutators);
-    
+engine.population(animals);
+engine.mutators(mutators);
+
+function runGeneration() {    
     engine.evolve();
-    var newanimals = engine.population();
-    animals = [];
+    const animals = engine.population();
+    const newanimals = [];
     
-    for (var k = 0; k < newanimals.length; k++) {
-        var animal = newanimals[k].clone();
+    for (var k = 0; k < animals.length; k++) {
+        var animal = animals[k].clone();
         animal.energy(50);
-        animals.push(animal);
+        newanimals.push(animal);
     }
+    
+    engine.population(newanimals);
     
     world.seed(0, 200);
 }
 
 function createWorld() {
-    world = Evol.createWorld(width, height);
+    const world = Evol.createWorld(width, height);
     world.seed(0, 200);
+    
+    return world;
 }
 
 function createAnimals() {
-    animals = [];
+    const animals = [];
 
     for (var k = 0; k < width + height; k++) {
         var animal = Evol.createAnimal({ energy: 50, eat: 50, move: 5 });
@@ -75,10 +87,14 @@ function createAnimals() {
         animal.world(world);
         animals.push(animal);
     }
+    
+    return animals;
 }
 
-function drawWorld(world, animals)
+function drawWorld()
 {
+    const animals = engine.population();
+    
     context.fillStyle="black";
     context.clearRect(0, 0, canvas.width, canvas.height);
     
@@ -122,23 +138,29 @@ function drawWorld(world, animals)
     }
     
     if (best)
-        document.getElementById("bestcode").innerHTML = best.run.toString();
+        document.getElementById("bestcode").innerHTML = '// ' + bestenergy + '\r\n' + best.run.toString();
 }
 
 setTimeout(doStep, 10);
 
 function doStep() {
-    drawWorld(world, animals);
-    world.grow(0.01, 255);
+    drawWorld();
+    world.grow(0.001, 255);
     
+    const animals = engine.population();    
     animals.forEach(function (animal) { animal.run(); });
     
     setTimeout(doStep, 10);
 }
 
 function relaunch() {
-    createWorld();
-    createAnimals();
+    world = createWorld();
+    animals = createAnimals();
+    
+    engine = simplega.engine();
+
+    engine.population(animals);
+    engine.mutators(mutators);
 }
 
 function refill() {

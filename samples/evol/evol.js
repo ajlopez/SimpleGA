@@ -90,9 +90,9 @@ var Evol = (function () {
         var newgenes = genes.slice();
         
         if (Math.random() < 0.5)
-            newgenes[pos] = genAlterAction(genes[pos]);
+            newgenes[pos] = alterGenAction(genes[pos]);
         else
-            newgenes[pos] = genAlterValue(genes[pos]);
+            newgenes[pos] = alterGenValue(genes[pos]);
             
         return newgenes;
     }
@@ -101,6 +101,7 @@ var Evol = (function () {
         options = options || { };
         
         var energy = options.energy || 0;
+        var initialenergy = energy;
         var food = options.eat || 0;
         var move = options.move || 0;
         var x;
@@ -126,7 +127,14 @@ var Evol = (function () {
             return newanimal;
         }
         
-        this.evaluate = function () { return energy; }
+        this.evaluate = function () { 
+            energy = initialenergy;
+            
+            for (let k = 1; k < 200; k++)
+                this.run();
+            
+            return energy; 
+        }
 
         this.value = function () { return energy; };
         
