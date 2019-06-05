@@ -14,6 +14,7 @@ const engine = simplega.engine();
 
 engine.population(population);
 engine.mutators([ phrases.mutator() ]);
+engine.crossovers([ phrases.crossover() ]);
 
 for (let k = 0; k < 1000; k++) {
     engine.evolve(values);

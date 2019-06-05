@@ -13,6 +13,17 @@ letters[31] = ';';
 
 const allletters = letters.join('');
 
+function Crossover() {
+    this.crossover = function (genotype1, genotype2) {
+        const genes1 = genotype1.genes();
+        const genes2 = genotype2.genes();
+        const ng = Math.floor(Math.random() * (genes1.length + 1));
+        const newgenes = genes1.slice(0, ng).concat(genes2.slice(ng, genes2.length + 1));
+
+        return new Genotype(newgenes);
+    };
+}
+
 function Mutator() {
     this.mutate = function (genotype) {
         const genes = genotype.genes().slice();
@@ -106,10 +117,15 @@ function createMutator() {
     return new Mutator();
 }
 
+function createCrossover() {
+    return new Crossover();
+}
+
 module.exports = {
     genotype: createGenotype,
     gene: createGene,
     mutator: createMutator,
+    crossover: createCrossover,
     values: textToValues
 }
 
