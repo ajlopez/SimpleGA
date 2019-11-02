@@ -5,6 +5,6 @@
   "dependencies": {
 	"socket.io": "0.9.13",
     "simplemessages": "0.0.6",
-    "express": "3.0.6"
+    "express": "4.17.1"
   }
 }
