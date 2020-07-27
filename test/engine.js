@@ -5,7 +5,7 @@ function generateGenotypes(n, value)
 {
     const genotypes = [];
     
-    for (var k = 0; k < n; k++)
+    for (let k = 0; k < n; k++)
         genotypes.push(new SimpleGenotype(value));
         
     return genotypes;
@@ -49,6 +49,7 @@ exports['get empty population'] = function (test) {
 exports['set and get population'] = function (test) {
     const engine = simplega.engine();
     const population = generateGenotypes(10, 1);
+    
     engine.population(population);
     
     const result = engine.population();
@@ -62,7 +63,9 @@ exports['set and get population'] = function (test) {
 exports['best individuals in population'] = function (test) {
     const engine = simplega.engine();
     const population = generateGenotypes(10, 1);
+    
     population.push(new SimpleGenotype(2));
+    
     const result = simplega.bests(population, 2);
     
     test.ok(result);
@@ -74,7 +77,9 @@ exports['best individuals in population'] = function (test) {
 exports['worse individuals in population'] = function (test) {
     const engine = simplega.engine();
     const population = generateGenotypes(10, 1);
+    
     population.push(new SimpleGenotype(0));
+    
     const result = simplega.bests(population, 2, true);
     
     test.ok(result);
@@ -86,6 +91,7 @@ exports['worse individuals in population'] = function (test) {
 exports['evolve and get population'] = function (test) {
     const engine = simplega.engine();
     const population = generateGenotypes(10, 1);
+    
     engine.population(population);
     engine.evolve();
     
@@ -99,6 +105,7 @@ exports['evolve and get population'] = function (test) {
 exports['evolve and get population using mutators'] = function (test) {
     const engine = simplega.engine();
     const population = generateGenotypes(10, 1);
+    
     engine.population(population);
     engine.mutators([ new SimpleMutator(), new SimpleMutator() ]);
     engine.evolve();
@@ -113,6 +120,7 @@ exports['evolve and get population using mutators'] = function (test) {
 exports['evolve and get population using crossovers'] = function (test) {
     const engine = simplega.engine();
     const population = generateGenotypes(10, 1);
+    
     population.push(new SimpleGenotype(10));
     engine.population(population);
     engine.crossovers([ new SimpleCrossover(), new SimpleCrossover() ]);
